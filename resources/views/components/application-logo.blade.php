@@ -1,0 +1,1 @@
+<img src="{{ asset('images/NovaPrica.png') }}" alt="Nova prica logo" class="w-32">

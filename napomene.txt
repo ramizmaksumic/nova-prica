@@ -1,0 +1,6 @@
+Ovdje pišemo napomene vezane za izradu stranice
+
+1. Odabrati i ubaciti odgovarajuće fontove
+2. Kreirati layout (Top menu, menu, componente - dugmiće, te footer)
+3. Početi sa layoutom stranica. Prvo ide Homepage, onda ide Event detail page
+4. Kreirati mapu
