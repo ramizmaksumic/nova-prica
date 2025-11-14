@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Reservation;
+use App\Models\Table;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -19,10 +21,20 @@ class EventController extends Controller
 
     public function detail(Event $event)
     {
+        $activeReservation = Reservation::where('event_id', $event->id)
+            ->where('status', 'active')
+            ->count();
+
+        $pendingReservation = Reservation::where('event_id', $event->id)
+            ->where('status', 'pending')
+            ->count();
 
 
+        $tables = Table::all()->count();
 
-        return view('event-detail', compact('event'));
+        $freeTables = $tables - $activeReservation - $pendingReservation;
+
+        return view('event-detail', compact('event', 'activeReservation', 'pendingReservation', 'freeTables'));
     }
 
     /**

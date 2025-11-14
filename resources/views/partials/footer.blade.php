@@ -1,62 +1,68 @@
-<footer class="bg-secondary py-3 px-20 text-white">
-    <!-- GORNJI DIO FOOTERA -->
-    <div class="upper flex justify-between mb-4 gap-x-10 py-4">
-        <!-- LIJEVA KOLOna -->
-        <div class="logo-text">
-            <h2 class="font-heading text-4xl">Gastro pub Nova prica</h2>
-            <p class="font-body mt-5">Gastro pub Nova priča je već deceniju nezaobilazna stanica mostarskog noćnog života.<br>
-                Bili smo domaćini najvećih muzičkih zvijezda regiona. Ako već niste bili, krajnje je vrijeme da odvojite jedan vikend za nas.
+<footer class="bg-secondary text-white py-10 px-6 md:px-16 lg:px-24">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- LEFT -->
+        <div>
+            <h2 class="font-heading text-3xl mb-4">Gastro Pub Nova priča</h2>
+
+            <p class="font-body text-sm leading-relaxed text-white/90">
+                Gastro pub Nova priča je već deceniju nezaobilazna stanica mostarskog noćnog života.
+                Bili smo domaćini najvećih muzičkih zvijezda regiona. Ako već niste bili, pravo je vrijeme
+                da odvojite jedan vikend za nas.
             </p>
-            <div class="adress mt-5">
-                <span class="gap-x-5 font-heading text-xl flex">
-                    <i class="fa-solid fa-house"></i>
-                    <p>Lacina br. 5, 88 000 Mostar</p>
-                </span>
-                <span class="gap-x-5 font-heading text-xl flex">
-                    <i class="fa-solid fa-phone-volume"></i>
-                    <p>+387 61 111 111</p>
-                </span>
-                <span class="gap-x-5 font-heading text-xl flex">
-                    <i class="fa-solid fa-envelope"></i>
-                    <p>info@nova-prica.ba</p>
-                </span>
+
+            <div class="mt-6 space-y-3 text-sm">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-house w-5"></i>
+                    <span>Lacina br. 5, 88 000 Mostar</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-phone-volume w-5"></i>
+                    <span>+387 61 111 111</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-envelope w-5"></i>
+                    <span>info@nova-prica.ba</span>
+                </div>
             </div>
         </div>
 
-        <!-- DESNA KOLONA -->
-        <div class="right-column">
-            <p class="font-body">Da li želite postati član naše fan baze? Ostavite mail. Slat ćemo vam informacije o važnim dešavanjima u klubu.</p>
-            <form action="" class="flex mt-4 items-center gap-x-2">
+        <!-- RIGHT -->
+        <div>
+            <p class="font-body text-sm text-white/90">
+                Postani dio naše fan baze i prvi saznaj za nove evente i najave.
+            </p>
 
-                <input type="text" placeholder="Email adresa..." class="font-body">
-                <button class="font-heading text-xl bg-white text-black py-2 px-3">POŠALJI</button>
-
-
-
+            <form action="#" class="flex mt-4 bg-white/10 rounded-lg overflow-hidden">
+                <input type="email" placeholder="Email adresa..."
+                    class="flex-1 px-4 py-2 bg-transparent text-white placeholder-white/60 focus:outline-none">
+                <button class="bg-white text-black font-heading px-5 hover:bg-gray-200 transition">
+                    Pošalji
+                </button>
             </form>
 
-            <div class="social-links mt-5">
-                <ul class="flex gap-x-4 font-heading text-md">
-                    <li><a href="">FACEBOOK</a>|</li>
-                    <li><a href="">INSTAGRAM</a>|</li>
-                    <li><a href="">YOUTUBE</a></li>
-                </ul>
+            <div class="mt-6 flex items-center gap-4 text-sm font-heading">
+                <a href="#" class="hover:text-yellow-300 transition">FACEBOOK</a>
+                <span>|</span>
+                <a href="#" class="hover:text-yellow-300 transition">INSTAGRAM</a>
+                <span>|</span>
+                <a href="#" class="hover:text-yellow-300 transition">YOUTUBE</a>
             </div>
         </div>
-
-
-
     </div>
 
-
-    <div class="bottom  bg-secondary  text-white font-body flex justify-between border-t-2"">
-        <p class=" pt-3">Sva prava zadržava Gastro pub Nova priča &copy; 2025. Developed by <span><a href=" https://reunionagencija.ba" target="_blank" class="hover:text-yellow-200 duration-100">Reunion web & marketing</a></span></p>
-        <div class="social-links pt-3">
-            <a href="#" class="font-heading">Pravila privatnosti</a> |
-            <a href="#" class="font-heading">Uslovi korištenja</a>
-
-        </div>
-
+    <!-- BOTTOM -->
+    <div class="border-t border-white/20 mt-10 pt-4 text-xs flex flex-col md:flex-row justify-between items-center gap-2">
+        <p>
+            &copy; 2025 Gastro pub Nova priča. Sva prava zadržana.
+        </p>
+        <p>
+            Developed by
+            <a href="https://reunionagencija.ba" target="_blank" class="hover:text-yellow-300 transition">
+                Reunion Web & Marketing
+            </a>
+        </p>
     </div>
 
 </footer>

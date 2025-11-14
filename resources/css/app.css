@@ -5,3 +5,36 @@
 @theme {
     --color-primary: #6b6751;
 }
+
+@keyframes fadeInAnimation {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation-name: fadeInAnimation;
+    animation-duration: 1s;
+}
+
+@keyframes fadeInRight {
+    from {
+        transform: translateX(150px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+.fade-in-right {
+    animation-name: fadeInRight;
+    animation-duration: 1s;
+}

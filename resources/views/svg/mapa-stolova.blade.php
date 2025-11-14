@@ -23,7 +23,11 @@
 use App\Models\Reservation;
 
 // Dohvati sve rezervisane stolove za ovaj event
-$reservedTables = Reservation::where('event_id', $event->id)
+$reservedTables = Reservation::where('event_id', $event->id)->whereIn('status', ['active'])
+    ->pluck('table_id')
+    ->toArray();
+
+	$pendingTables = Reservation::where('event_id', $event->id)->whereIn('status', ['pending'])
     ->pluck('table_id')
     ->toArray();
 @endphp
@@ -1803,45 +1807,45 @@ $reservedTables = Reservation::where('event_id', $event->id)
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // reserved IDs iz PHP-a -> JS
+
     const reserved = @json($reservedTables);
+    const pending = @json($pendingTables);
 
-    reserved.forEach(id => {
-        // probaj najprije pronaći <g data-table-id="X"> i onda prvi path unutar njega
-        const g = document.querySelector(`[data-table-id="${id}"]`);
-        if (g) {
-            // ako putanja koristi <use> ili više path-ova, obojimo sve unutar <g>
-            const shapes = g.querySelectorAll('path, rect, circle, ellipse, polygon, polyline, line, use');
-            if (shapes.length) {
-                shapes.forEach(el => {
-                    // postavi atribut presentation (fill) i inline stil - ovo pregazi sve
-                    el.setAttribute('fill', '#314158');
-                    el.style.fill = '#314158';
-                });
+    function styleTables(ids, color, disableClick = true, opacity = 0.6) {
+        ids.forEach(id => {
+            const g = document.querySelector(`[data-table-id="${id}"]`);
 
-				// 🚫 onemogući klik
-            g.style.pointerEvents = 'none';
-            // 💨 vizualno zasivi
-            g.style.opacity = '0.6';
-            g.style.cursor = 'not-allowed';
-            } else {
-                // fallback: postavi fill direktno na <g> (neki SVG-i nasljeđuju)
-                g.setAttribute('fill', '#90A1B9');
-                g.style.fill = '#90A1B9';
+            if (g) {
+                const shapes = g.querySelectorAll('path, rect, circle, ellipse, polygon, polyline, line, use');
+
+                if (shapes.length) {
+                    shapes.forEach(el => {
+                        el.setAttribute('fill', color);
+                        el.style.fill = color;
+                    });
+                } else {
+                    g.setAttribute('fill', color);
+                    g.style.fill = color;
+                }
+
+                if (disableClick) {
+                    g.style.pointerEvents = 'none';
+                    g.style.cursor = 'not-allowed';
+                    g.style.opacity = opacity;
+                }
             }
-        } else {
-            // fallback: možda su elementi naznačeni kao "table-1" u id-u
-            const g2 = document.getElementById(`table-${id}`);
-            if (g2) {
-                g2.querySelectorAll('path, rect, use').forEach(el=>{
-                    el.setAttribute('fill', '#90A1B9');
-                    el.style.fill = '#90A1B9';
-                });
-            }
-        }
-    });
+        });
+    }
+
+    // ACTIVE (zauzeti)
+    styleTables(reserved, '#314158', true, 0.6);
+
+    // PENDING (na čekanju)
+    styleTables(pending, '#D9A404', true, 0.8);  
+    // možeš promijeniti boju u #F1C40F ili #FFC107 itd.
 });
 </script>
+
 
 
 

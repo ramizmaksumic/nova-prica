@@ -56,7 +56,23 @@
             </div>
 
             <!-- Table Layout -->
-            <div class="">
+            <div class="w-full">
+                <!-- Legend -->
+                <div class="flex flex-row justify-start gap-x-5 md:gap-x-20">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-slate-600"></div>
+                        <p class="font-heading pl-5">Rezervacija: {{ $activeReservation}}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-[#D9A404]"></div>
+                        <p class="font-heading pl-5">Na čekanju: {{ $pendingReservation }}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-slate-50 border-2"></div>
+                        <p class="font-heading pl-5">Slobodnih stolova: {{ $freeTables }}</p>
+                    </div>
+
+                </div>
                 <x-table-layout-component :event="$event"></x-table-layout-component>
 
             </div>

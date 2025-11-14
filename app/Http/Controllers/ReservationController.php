@@ -43,7 +43,7 @@ class ReservationController extends Controller
 
         $alreadyReserved = Reservation::where('event_id', $validated['event_id'])
             ->where('table_id', $validated['table_id'])
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereIn('status', ['pending', 'active'])
             ->exists();
 
         if ($alreadyReserved) {

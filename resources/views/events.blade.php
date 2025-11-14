@@ -32,13 +32,13 @@
 
     <!-- Event kartice -->
 
-    <div class="flex flex-col md:flex-row justify-between mt-10 gap-x-5">
+    <div class="grid grid-cols-1 md:grid-cols-4 justify-between mt-10 gap-x-5">
 
         @foreach ($events as $event )
         <div class="card mb-5">
-            <img src="{{ $event->image}}" alt="" class="h-[500px]">
+            <img src="{{'storage/' . $event->image}}" alt="" class="h-[500px]">
             <div class=" flex justify-between items-center font-heading text-lg">
-                <h3 class="font-heading text-xl">Događaj: {{$event->name}}</h3>
+                <h3 class="font-heading text-xl">{{$event->name}}</h3>
                 <p class="font-bold">{{ \Carbon\Carbon::parse($event->date)->format('d.m.Y.') }}</p>
             </div>
             <a href="{{ route('event.detail', $event->id) }}"
