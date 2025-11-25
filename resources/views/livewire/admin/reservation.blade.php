@@ -15,7 +15,16 @@
             class="font-heading text-slate-400 w-full rounded-md">
     </div>
 
-    <div>Pretraženo: {{ $search }}</div>
+    <div class="flex justify-between items-center">
+        <p>Pretraženo: {{ $search }}</p>
+        <button
+            wire:click="downloadPdf"
+            class="bg-secondary text-white px-4 py-2 rounded mb-4 hover:bg-primary/80 transition">
+            Preuzmi kompletnu listu PDF
+        </button>
+
+
+    </div>
 
     <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
         <thead class="bg-gray-100 text-gray-700 font-heading text-lg">
@@ -34,7 +43,7 @@
             @foreach($reservations as $reservation)
             <tr class="border-b hover:bg-gray-50">
                 <td class="py-3 px-6">{{ $reservation->event->name }}</td>
-                <td class="py-3 px-6">{{ \Carbon\Carbon::parse($reservation->date)->format('d/m/Y H:i') }}</td>
+                <td class="py-3 px-6">{{ \Carbon\Carbon::parse($reservation->event->date)->format('d/m/Y') }}</td>
                 <td class="py-3 px-6">{{ $reservation->table->name }}</td>
                 <td class="py-3 px-6">{{$reservation->notes }}</td>
                 <td class="py-3 px-6">{{$reservation->num_people }}</td>

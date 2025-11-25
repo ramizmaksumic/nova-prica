@@ -15,12 +15,15 @@ class EventController extends Controller
     public function index()
     {
 
-        $events = Event::all();
+        $events = Event::where('status', 'active')->orderBy('date', 'DESC')->take(4)->get();
         return view('events', compact('events'));
     }
 
     public function detail(Event $event)
     {
+
+        $eventLink = $event->link;
+
         $activeReservation = Reservation::where('event_id', $event->id)
             ->where('status', 'active')
             ->count();
@@ -30,11 +33,15 @@ class EventController extends Controller
             ->count();
 
 
+
+
+
+
         $tables = Table::all()->count();
 
         $freeTables = $tables - $activeReservation - $pendingReservation;
 
-        return view('event-detail', compact('event', 'activeReservation', 'pendingReservation', 'freeTables'));
+        return view('event-detail', compact('event', 'activeReservation', 'pendingReservation', 'freeTables', 'eventLink'));
     }
 
     /**

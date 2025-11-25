@@ -6,13 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+
+    protected $with = [
+        'event:id,name,date,status',
+        'user:id,name',
+        'table:id,name'
+    ];
+
     protected $fillable = [
         'event_id',
         'user_id',
         'table_id',
         'status',
         'num_people',
-        'notes'
+        'notes',
+
     ];
 
     public function table()

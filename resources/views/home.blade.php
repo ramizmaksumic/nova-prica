@@ -57,24 +57,29 @@
 
     <!-- Event kartice -->
 
-    <div class="grid grid-cols-1 md:grid-cols-4 justify-between mt-10 gap-x-5">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-10">
+        @foreach ($events as $event)
+        <div class="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+            <!-- Slika -->
+            <img src="{{ 'storage/' . $event->image }}" alt="{{ $event->name }}" class="w-full h-64 object-cover">
 
-        @foreach ( $events as $event )
-
-
-        <div class="card mb-5">
-            <img src="{{'storage/' . $event->image }}" alt="{{ $event->name }}" class="h-[500px]">
-            <div class=" flex justify-between items-center font-heading text-lg">
-                <h3 class="font-heading text-xl">{{$event->name}}</h3>
-                <p class="font-bold">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y.') }}</p>
+            <!-- Badge za datum -->
+            <div class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
+                {{ \Carbon\Carbon::parse($event->date)->format('d.m.Y.') }}
             </div>
-            <a href="{{ route('event.detail', $event->id) }}"
-                class="bg-primary text-white font-heading w-full py-3 mt-3 text-xl block text-center">
-                Rezerviraj stol &rarr;
-            </a>
+
+            <!-- Badge za naziv -->
+            <h2 class="font-heading text-2xl font-medium pl-4 pt-3">{{ $event->name }}</h2>
+
+            <!-- Kartica sadržaj -->
+            <div class="p-4 flex flex-col justify-between h-32">
+                <p class="text-gray-600">{{ Str::limit($event->description, 80) }}</p>
+                <a href="{{ route('event.detail', $event->id) }}"
+                    class="bg-primary text-white font-heading w-full py-2 mt-4 text-center rounded-lg hover:bg-primary-dark transition">
+                    Rezerviraj stol &rarr;
+                </a>
+            </div>
         </div>
-
-
         @endforeach
     </div>
 

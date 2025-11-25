@@ -4,9 +4,9 @@
     <div class="top-menu flex justify-between bg-secondary text-white py-2 px-20">
         <p class="font-heading text-sm md:text-base">Lacina br. 5, Villa Neretva (Musala)</p>
         <div class="social-links flex gap-x-3 font-heading text-sm md:text-base opacity-90">
-            <a href="#" class="hover:opacity-100 hover:underline">Facebook</a>
+            <a href="https://www.facebook.com/novaprica.gastropub" target="_blank" class="hover:text-yellow-300 transition">FACEBOOK</a>
             <span>|</span>
-            <a href="#" class="hover:opacity-100 hover:underline">Instagram</a>
+            <a href="https://www.instagram.com/novaprica_gastropub/" target="_blank" class="hover:text-yellow-300 transition">INSTAGRAM</a>
         </div>
     </div>
 
@@ -83,12 +83,19 @@
 
     <!-- Drawer meni -->
 
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
     <div
         x-data="{ open: false }"
         x-on:toggle-mobile-menu.window="open = !open">
 
         <!-- BACKDROP -->
         <div
+            x-cloak
             x-show="open"
             x-transition.opacity
             @click="open = false"
@@ -97,6 +104,7 @@
 
         <!-- MENU DRAWER -->
         <div
+            x-cloak
             x-show="open"
             x-transition.duration.300ms
             class="fixed right-0 top-0 h-full w-3/4 max-w-[280px] bg-white shadow-xl z-50 p-6 flex flex-col gap-y-6">

@@ -72,6 +72,20 @@
                                 <span class="ml-2 font-heading">Menu</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.contacts') }}"
+                                class="flex items-center px-6 py-3 hover:bg-gray-100 transition {{ request()->routeIs('admin.contacts.*') ? 'bg-gray-100 border-l-4 border-primary' : '' }}">
+                                <i class="fa-solid fa-address-book w-6 text-primary"></i>
+                                <span class="ml-2 font-heading">Newsletter kontakti</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.users') }}"
+                                class="flex items-center px-6 py-3 hover:bg-gray-100 transition {{ request()->routeIs('admin.users.*') ? 'bg-gray-100 border-l-4 border-primary' : '' }}">
+                                <i class="fa-solid fa-person w-6 text-primary"></i>
+                                <span class="ml-2 font-heading">Korisnici</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

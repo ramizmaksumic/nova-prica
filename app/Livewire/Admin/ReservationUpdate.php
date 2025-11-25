@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Admin;
 
+use App\Mail\ReservationUpdateMail;
 use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
@@ -46,6 +49,8 @@ class ReservationUpdate extends ModalComponent
             'status' => $this->status,
             'notes' => $this->notes,
         ]);
+
+        Mail::to(Auth::user()->email)->send(new ReservationUpdateMail($reservation));
 
         $this->dispatch('reservationUpdated'); // osvježavanje liste
         $this->closeModal();

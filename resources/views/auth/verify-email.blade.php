@@ -1,12 +1,12 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+        {{ __('Zahvaljujemo se na registraciji! Prije nego nastavimo dalje potrebno je još samo da potvrdite vaš email. To možete učiniti tako što ćete kliknuti na link koji smo vam poslali na mail. Ako niste dobili link rado ćemo vam poslati novi.') }}
     </div>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
+    <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+        {{ __('Novi verifikacijski link vam je poslan na email pomoću kojeg ste se registrirali.') }}
+    </div>
     @endif
 
     <div class="mt-4 flex items-center justify-between">
@@ -15,7 +15,7 @@
 
             <div>
                 <x-primary-button>
-                    {{ __('Resend Verification Email') }}
+                    {{ __('Pošalji ponovo link') }}
                 </x-primary-button>
             </div>
         </form>

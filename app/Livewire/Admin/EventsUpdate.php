@@ -4,10 +4,13 @@ namespace App\Livewire\Admin;
 
 use App\Models\Event;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
 
 class EventsUpdate extends ModalComponent
 {
+
+    use WithFileUploads;
 
     public $eventId;
     public $name;
@@ -16,6 +19,8 @@ class EventsUpdate extends ModalComponent
     public $date;
     public $status;
     public $image;
+
+    public $newImage;
 
 
     public function mount($eventId)
@@ -34,12 +39,18 @@ class EventsUpdate extends ModalComponent
     {
         $validated = $this->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
             'price' => 'integer|nullable',
             'date' => 'required|date',
             'status' => 'required|string',
-            'image' => 'nullable|string',
+            'newImage' => 'nullable|image|max:2048',
         ]);
+
+        if ($this->newImage) {
+            $validated['image'] = $this->newImage->store('events', 'public');
+        } else {
+            $validated['image'] = $this->image;
+        }
 
         $event = Event::findOrFail($this->eventId);
         $event->update($validated);

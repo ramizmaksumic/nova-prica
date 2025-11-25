@@ -8,6 +8,7 @@ use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\ReservationConfirmedMail;
+use App\Mail\ReservationDeleteMail;
 use App\Mail\ReservationUpdateMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -112,6 +113,12 @@ class ReservationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->delete();
+
+        Mail::to(Auth::user()->email)->send(new ReservationDeleteMail($reservation));
+
+        return back()->with('message', 'Rezervacija je uspješno obrisana.');
     }
 }

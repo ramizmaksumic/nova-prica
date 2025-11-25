@@ -54,4 +54,33 @@ class Reservations extends Component
             ->extends('admin.dashboard')
             ->section('content');
     }
+
+    public function downloadPdf()
+    {
+        $search = $this->search;
+
+        // iste rezervacije koje se prikazuju u tabeli
+        $reservations = Reservation::with(['event', 'user', 'table'])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->whereHas('event', fn($q) => $q->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('user', fn($q) => $q->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('table', fn($q) => $q->where('name', 'like', "%{$search}%"));
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // render HTML u PDF
+        $html = view('admin.pdf.reservations', compact('reservations'))->render();
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return response()->streamDownload(function () use ($dompdf) {
+            echo $dompdf->output();
+        }, 'rezervacije.pdf');
+    }
 }

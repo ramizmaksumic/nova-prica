@@ -1,18 +1,17 @@
 @component('mail::message')
-# Ažurirana rezervacija
+# Izbrisana rezervacija
 
-Korisnik **{{ $reservation->user->name }}** je ažurirao svoju rezervaciju.
+Korisnik **{{ $reservation->user->name }}** je izbrisao svoju rezervaciju.
 
 **Detalji:**
 - Događaj: {{ $reservation->event->name }}
 - Stol: {{ $reservation->table->name }}
 - Broj osoba: {{ $reservation->num_people }}
 - Napomena: {{ $reservation->notes ?? 'Nema napomene' }}
-- Status: {{ $reservation->status}}
 - Datum: {{ $reservation->event->date->format('d.m.Y H:i') }}
 
 
 
 Hvala,
-**Nova prča, gastro pub**
+**Sistem rezervacija**
 @endcomponent

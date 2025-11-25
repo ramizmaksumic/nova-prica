@@ -7,18 +7,30 @@
         <div>
             <label class="block font-heading mb-1">Naziv</label>
             <input type="text" wire:model="name" class="w-full rounded">
+            @error('name')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Opis</label>
             <input type="text" wire:model="description" class="w-full rounded">
+            @error('description')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Cijena</label>
             <input type="number" wire:model="price" class="w-full rounded border-1">
+            @error('price')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Datum događaja</label>
             <input type="date" wire:model="date" class="w-full rounded border-1">
+            @error('date')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Status</label>
@@ -27,10 +39,21 @@
                 <option value="active">Aktivan</option>
                 <option value="inactive">Neaktivan</option>
             </select>
+            @error('status')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Slika</label>
             <input type="file" wire:model="image" class="w-full rounded">
+            @error('image')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label class="block font-heading mb-1">Entrio link</label>
+            <input type="text" wire:model="link" class="w-full border rounded p-2">
         </div>
 
         <div class="flex justify-end">

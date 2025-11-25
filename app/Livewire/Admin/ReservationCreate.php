@@ -14,12 +14,14 @@ class ReservationCreate extends ModalComponent
     public $num_people;
     public $notes;
 
+
     public function save()
     {
         $this->validate([
             'event_id' => 'required|exists:events,id',
             'table_id' => 'required|exists:tables,id',
             'num_people' => 'required|integer|min:1',
+
         ]);
 
         Reservation::create([

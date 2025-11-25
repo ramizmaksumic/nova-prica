@@ -18,17 +18,21 @@ class EventsCreate extends ModalComponent
     public $date;
     public $status;
     public $image;
+    public $link;
 
     public function save()
     {
         $validated = $this->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
             'price' => 'integer',
             'date' => 'required|date',
             'status' => 'string|required',
-            'image' => 'nullable|image|max:2048'
+            'image' => 'nullable|image|max:2048',
+            'link' => 'nullable|string|max:255'
         ]);
+
+
 
         $validated['date'] = \Carbon\Carbon::parse($this->date)->format('Y-m-d H:i:s');
 
@@ -38,8 +42,8 @@ class EventsCreate extends ModalComponent
 
         Event::create($validated);
 
-        $this->closeModal();
         $this->dispatch('eventCreated');
+        $this->closeModal();
     }
 
     public function render()

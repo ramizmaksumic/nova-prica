@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Livewire\Admin\Events;
@@ -14,12 +15,17 @@ use App\Models\Event;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Livewire\Admin\Contacts;
 use App\Livewire\Admin\Menus;
-
+use App\Livewire\Admin\Users;
 
 Route::get('/', function () {
 
-    $events = Event::where('status', 'active')->take(4)->get();
+    $events = Event::where('status', 'active')
+        ->orderBy('date', 'desc') // najnoviji događaji prvi
+        ->take(4)
+        ->get();
+
     $posts = Post::latest()->take(4)->get();
     return view('home', compact('events', 'posts'));
 });
@@ -39,6 +45,8 @@ Route::get('meni/', function () {
 
 Route::get('/kontatk', [ContactController::class, 'index'])->name('contact');
 
+Route::post('newsletter/', [NewsletterController::class, 'store'])->name('newsletter.store');
+
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');
@@ -47,10 +55,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/tables', Tables::class)->name('admin.tables');
     Route::get('/posts', Posts::class)->name('admin.posts');
     Route::get('/menu', Menus::class)->name('admin.menus');
+    Route::get('/newsletter-contacts', Contacts::class)->name('admin.contacts');
+    Route::get('/users', Users::class)->name('admin.users');
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reservations', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
@@ -69,5 +79,11 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin', [AdminController::class, 'index'])->name('admin.dashboard');
 });
+
+use App\Http\Controllers\Auth\GoogleController;
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
 
 require __DIR__ . '/auth.php';

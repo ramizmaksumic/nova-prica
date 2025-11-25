@@ -34,7 +34,7 @@
             </p>
 
 
-            <img src="{{ asset ('images/events/retro.jpg')}}" alt="" class="w-full h-[650px] object-cover">
+            <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->image }}" class="w-full h-[650px] object-cover">
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -73,7 +73,26 @@
                     </div>
 
                 </div>
+
+                @if ($eventLink)
+
+                <div class="mt-5">
+                    <p class="mb-5">Karte za ovaj događaj su u prodaji putem Entrio platforme. Karte možete kupiti putem sljedećeg linka.</p>
+                    <a href="{{ $eventLink }}" target="_blank"
+                        class="bg-primary text-white font-heading text-2xl py-3 px-5 rounded-md">
+                        Kupi karte &rarr;
+                    </a>
+
+                </div>
+                @else
+                <!-- Render stolova -->
+
                 <x-table-layout-component :event="$event"></x-table-layout-component>
+                @endif
+
+
+
+
 
             </div>
 

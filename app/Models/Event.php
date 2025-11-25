@@ -13,7 +13,8 @@ class Event extends Model
         'price',
         'date',
         'status',
-        'image'
+        'image',
+        'link'
     ];
 
     public function reservations()

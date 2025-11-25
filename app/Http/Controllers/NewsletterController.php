@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\NewsletterContact;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class NewsletterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,20 +28,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validated = $request->validate([
+            'email' => 'required|string|max:55',
+        ]);
+
+        NewsletterContact::create($validated);
+
+        return back()->with('message', 'Uspješno ste se prijavili na naš fun base. Hvala, javimo se uskoro.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(string $id)
     {
-
-        $relatedPosts = Post::where('id', '!=', $post->id)
-            ->latest()
-            ->take(3)
-            ->get();
-        return view('post.show', compact('post', 'relatedPosts'));
+        //
     }
 
     /**

@@ -5,18 +5,42 @@
         <div>
             <label class="block font-heading mb-1">Naziv</label>
             <input type="text" wire:model="name" class="w-full rounded">
+            @error('name')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Opis</label>
             <input type="text" wire:model="description" class="w-full rounded">
+            @error('description')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Cijena</label>
             <input type="number" wire:model="price" class="w-full rounded">
+            @error('price')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Datum</label>
             <input type="datetime-local" wire:model="date" class="w-full rounded">
+            @error('date')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div>
+            <label class="block font-heading mb-1">Trenutna slika</label>
+            <img src="{{ asset('storage/' . $image) }}" class="w-32 rounded mb-2">
+        </div>
+
+        <div>
+            <label class="block font-heading mb-1">Nova slika (opcionalno)</label>
+            <input type="file" wire:model="image" class="w-full rounded">
+            @error('image')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label class="block font-heading mb-1">Status</label>
@@ -24,6 +48,9 @@
                 <option value="active">Aktivan</option>
                 <option value="inactive">Neaktivan</option>
             </select>
+            @error('status')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex justify-end">
@@ -31,4 +58,6 @@
             <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Spremi promjene</button>
         </div>
     </form>
+
+
 </div>

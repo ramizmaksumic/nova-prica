@@ -8,7 +8,8 @@ use App\Models\Event;
 
 class Events extends Component
 {
-    protected $listeners = ['eventUpdated' => '$refresh'];
+    protected $listeners = ['eventUpdated' => '$refresh', 'eventCreated' => '$refresh'];
+
     public $events;
 
     public function mount()

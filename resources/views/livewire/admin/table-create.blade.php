@@ -23,6 +23,7 @@
         <div>
             <label class="block font-heading mb-1">Rezervisan</label>
             <select wire:model="is_reserved" class="w-full rounded">
+                <option value="" selected>Odaberite opciju</option>
                 <option value="1">Da</option>
                 <option value="0">Ne</option>
             </select>
@@ -33,4 +34,10 @@
             <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Spremi promjene</button>
         </div>
     </form>
+
+    @if($errors)
+
+    {{ $errors }}
+
+    @endif
 </div>
