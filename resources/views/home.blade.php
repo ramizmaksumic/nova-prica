@@ -4,7 +4,7 @@
 
 <!-- HERO SLIDER -->
 
-<section class="h-screen flex flex-col md:flex-row justify-between items-center px-20 py-10 bg-cover bg-center bg-no-repeat">
+<section class="h-screen flex flex-col md:flex-row justify-between items-center px-5 md:px-20 py-10 bg-cover bg-center bg-no-repeat">
     <div class="w-full md:w-1/2">
         <div class="relative z-10 max-w-xl">
             <h1 class="font-heading text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter fade-in">
@@ -36,7 +36,7 @@
 
 <!-- EVENTI -->
 
-<section class="flex flex-col px-20 py-20 bg-white">
+<section class="flex flex-col px-5 md:px-20 py-20 bg-white">
 
     <!-- Gornji red -->
 
@@ -147,7 +147,7 @@
                         Akcija
                     </span>
 
-                    <span class="absolute top-14 right-2 bg-red-600 text-white font-heading text-xs px-3 py-1 rounded-md">
+                    <span class="absolute top-10 md:top-14 right-2 bg-red-600 text-white font-heading text-xs px-1 md:px-3 py-1 rounded-md">
                         {{ $item['price'] }} <sup>00</sup> KM
                     </span>
 

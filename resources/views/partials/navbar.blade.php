@@ -1,7 +1,7 @@
 <div class="flex flex-col">
 
     <!-- TOP MENU -->
-    <div class="top-menu flex justify-between bg-secondary text-white py-2 px-20">
+    <div class="top-menu flex justify-between bg-secondary text-white py-2 px-5 md:px-20">
         <p class="font-heading text-sm md:text-base">Lacina br. 5, Villa Neretva (Musala)</p>
         <div class="social-links flex gap-x-3 font-heading text-sm md:text-base opacity-90">
             <a href="https://www.facebook.com/novaprica.gastropub" target="_blank" class="hover:text-yellow-300 transition">FACEBOOK</a>
@@ -11,7 +11,7 @@
     </div>
 
     <!-- MAIN NAV -->
-    <nav class="bg-white flex flex-col md:flex-row px-20 py-5 justify-between items-center shadow-md">
+    <nav class="bg-white flex flex-row px-5 md:px-20 py-5 justify-between items-center shadow-md">
 
         <!-- Logo -->
         <a href="{{ url('/') }}">

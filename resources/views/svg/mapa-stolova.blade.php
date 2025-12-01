@@ -1815,12 +1815,39 @@ $reservedTables = Reservation::where('event_id', $event->id)->whereIn('status', 
 </g>
 </svg>
 
+
+
+<style>
+    /* jednostavan tooltip stil */
+    .svg-tooltip {
+        position: absolute;
+        background: #000;
+        color: #fff;
+        padding: 6px 10px;
+        font-size: 13px;
+        border-radius: 6px;
+        pointer-events: none;
+        white-space: nowrap;
+        z-index: 9999;
+        opacity: 0;
+        transform: translate(-50%, -120%);
+        transition: opacity 0.15s ease;
+    }
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
     const reserved = @json($reservedTables);
     const pending = @json($pendingTables);
+    const isLoggedIn = @json(auth()->check());
 
+    // Tooltip element
+    const tooltip = document.createElement('div');
+    tooltip.className = 'svg-tooltip';
+    tooltip.textContent = 'Prijavite se da biste rezervisali stol';
+    document.body.appendChild(tooltip);
+
+    // funkcija za stiliziranje stolova
     function styleTables(ids, color, disableClick = true, opacity = 0.6) {
         ids.forEach(id => {
             const g = document.querySelector(`[data-table-id="${id}"]`);
@@ -1851,7 +1878,46 @@ document.addEventListener('DOMContentLoaded', function () {
     styleTables(reserved, '#314158', true, 0.6);
 
     // PENDING (na čekanju)
-    styleTables(pending, '#D9A404', true, 0.8);  
-    // možeš promijeniti boju u #F1C40F ili #FFC107 itd.
+    styleTables(pending, '#D9A404', true, 0.8);
+
+
+    // Tooltip samo za slobodne stolove + samo za guestove
+    if (!isLoggedIn) {
+
+        document.querySelectorAll('[data-table-id]').forEach(g => {
+            const id = g.getAttribute('data-table-id');
+
+            const isReserved = reserved.includes(Number(id));
+            const isPending = pending.includes(Number(id));
+
+            if (!isReserved && !isPending) {
+                // slobodan stol
+
+                g.addEventListener('mouseenter', (e) => {
+                    tooltip.style.opacity = 1;
+                    tooltip.style.left = e.pageX + 'px';
+                    tooltip.style.top = e.pageY + 'px';
+                });
+
+                g.addEventListener('click', (e) => {
+                    tooltip.style.opacity = 1;
+                    tooltip.style.left = e.pageX + 'px';
+                    tooltip.style.top = e.pageY + 'px';
+                });
+
+                g.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = e.pageX + 'px';
+                    tooltip.style.top = (e.pageY - 10) + 'px';
+                });
+
+                g.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = 0;
+                });
+
+                g.style.cursor = 'pointer';
+            }
+        });
+    }
 });
 </script>
+
