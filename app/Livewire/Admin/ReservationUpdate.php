@@ -50,7 +50,14 @@ class ReservationUpdate extends ModalComponent
             'notes' => $this->notes,
         ]);
 
-        Mail::to(Auth::user()->email)->send(new ReservationUpdateMail($reservation));
+        // Email korisniku
+        Mail::to($reservation->user->email)
+            ->cc('info@novaprica.ba')
+            ->queue(new ReservationUpdateMail($reservation));
+
+
+
+
 
         $this->dispatch('reservationUpdated'); // osvježavanje liste
         $this->closeModal();

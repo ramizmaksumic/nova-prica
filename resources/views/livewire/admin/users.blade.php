@@ -35,12 +35,12 @@
 
                 <td class="py-3 px-6 text-center">
                     <button
-                        wire:click="$dispatch('openModal', { component: 'admin.reservation-update', arguments: { reservationId: {{ $user->id }} } })"
+                        wire:click="$dispatch('openModal', { component: 'admin.user-update', arguments: { userId: {{ $user->id }} } })"
                         class="text-blue-500 hover:text-blue-700">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                     <button
-                        wire:click="$dispatch('openModal', { component: 'admin.reservation-delete', arguments: { reservationId: {{ $user->id }} } })"
+                        wire:click="$dispatch('openModal', { component: 'admin.user-delete', arguments: { userId: {{ $user->id }} } })"
                         class="text-red-500 hover:text-red-700">
                         <i class="fa-solid fa-trash"></i>
                     </button>

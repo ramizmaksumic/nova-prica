@@ -25,11 +25,24 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect()->intended(route('events', absolute: false));
+        // Ako je korisnik želio rezervaciju a nije bio ulogovan → vrati ga na event
+        if (session()->has('last_event')) {
+            $eventId = session('last_event');
+            session()->forget('last_event');
+            return redirect()->route('event.detail', $eventId);
+        }
+
+        // Ako je admin → idi na admin dashboard
+        if (auth()->user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // Inače → idi na default korisničku početnu stranicu
+        return redirect()->intended(route('events'));
     }
+
 
     /**
      * Destroy an authenticated session.

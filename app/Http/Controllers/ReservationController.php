@@ -37,7 +37,7 @@ class ReservationController extends Controller
             'event_id' => 'required|exists:events,id',
             'table_id' => 'required|exists:tables,id',
             'num_people' => 'required|integer|min:1|max:8',
-            'notes' => 'string|max:255',
+            'notes' => 'nullable|string|max:255',
         ]);
 
         //Provjera da li je stol već rezervisan
@@ -65,7 +65,13 @@ class ReservationController extends Controller
 
         $reservation->load(['user', 'event', 'table']);
 
-        Mail::to(Auth::user()->email)->send(new ReservationConfirmedMail($reservation));
+        // Email korisniku
+        Mail::to($reservation->user->email)
+            ->cc('info@novaprica.ba')
+            ->queue(new ReservationConfirmedMail($reservation));
+
+
+
 
 
 

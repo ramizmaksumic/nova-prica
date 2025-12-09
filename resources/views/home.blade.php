@@ -4,34 +4,41 @@
 
 <!-- HERO SLIDER -->
 
-<section class="h-screen flex flex-col md:flex-row justify-between items-center px-5 md:px-20 py-10 bg-cover bg-center bg-no-repeat">
-    <div class="w-full md:w-1/2">
-        <div class="relative z-10 max-w-xl">
-            <h1 class="font-heading text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter fade-in">
-                Gastro Pub <br> Nova priča
-            </h1>
-            <p class="font-body mb-10 mt-10 text-lg">
-                Već deceniju mjesto najboljeg provoda u Mostaru. Dom smo nezaboravnih noći i uspomena.
-                <br> <br> Ovu aplikaciju smo kreirali radi lakšeg rezerviranja stolova u našem objektu.
-            </p>
-            <div class="flex gap-x-5">
-                <a href="{{ route('events') }}" class="font-heading text-sm md:text-xl bg-primary text-white py-3 px-6 shadow-md hover:bg-secondary transition">
-                    Rezerviraj stol &rarr;
-                </a>
-                <a href="{{ route('events') }}" class="font-heading text-sm md:text-xl bg-secondary text-white py-3 px-6 shadow-md hover:bg-primary transition">
-                    Kako rezervisati &rarr;
-                </a>
+<section
+    class="relative h-screen flex items-center justify-center text-center px-6 md:px-20 py-10 
+           bg-cover bg-center bg-no-repeat"
+    style="background-image: url('{{ asset('images/naslovna.jpg') }}');">
 
-            </div>
+    <!-- OVERLAY -->
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <!-- CONTENT -->
+    <div class="relative z-10 max-w-3xl mx-auto">
+        <h1 class="font-heading text-8xl md:text-9xl lg:text-9xl font-bold tracking-tight text-white fade-in">
+            <span class="text-amber-400">Gastro Pub</span> <br> Nova priča
+        </h1>
+
+        <p class="font-body text-white/90 mt-8 mb-10 md:text-xl leading-relaxed">
+            Već deceniju mjesto najboljeg provoda u Mostaru.
+            Dom smo nezaboravnih noći i uspomena. <br><br>
+            Ovu aplikaciju smo kreirali radi lakšeg rezerviranja stolova u našem objektu.
+        </p>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+            <a href="{{ route('events') }}"
+                class="font-heading text-xl bg-primary text-white py-5 px-8 rounded shadow-md hover:bg-amber-500 transition">
+                Rezerviraj stol &rarr;
+            </a>
+
+            <a href="{{ route('about-us') }}"
+                class="font-heading text-xl bg-secondary text-white py-5 px-8 rounded shadow-md hover:bg-amber-500 transition">
+                Kako rezervisati &rarr;
+            </a>
         </div>
-
     </div>
-    <div class="relative w-full md:w-1/2">
-        <img src="{{ asset('images/mapa-stolova.png') }}" alt="Mapa-stolova" class="w-full fade-in-right">
-    </div>
-
 
 </section>
+
 
 
 <!-- EVENTI -->

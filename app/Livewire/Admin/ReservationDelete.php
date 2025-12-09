@@ -30,7 +30,7 @@ class ReservationDelete extends ModalComponent
             $this->dispatch('reservationDeleted');
         }
 
-        Mail::to(Auth::user()->email)->send(new ReservationDeleteMail($reservation));
+        Mail::to(Auth::user()->email)->queue(new ReservationDeleteMail($reservation));
 
         $this->closeModal();
     }

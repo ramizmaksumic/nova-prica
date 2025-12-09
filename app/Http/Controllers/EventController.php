@@ -36,7 +36,7 @@ class EventController extends Controller
 
 
 
-
+        session(['last_event' => $event->id]);
         $tables = Table::all()->count();
 
         $freeTables = $tables - $activeReservation - $pendingReservation;
