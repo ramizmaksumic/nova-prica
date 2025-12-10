@@ -34,7 +34,7 @@
             </p>
 
 
-            <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->image }}" class="w-full h-[650px] object-cover">
+            <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->image }}" class="w-full h-[350px] md:h-[650px] object-cover">
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -61,15 +61,15 @@
                 <div class="flex flex-row justify-start gap-x-5 md:gap-x-20">
                     <div class="flex items-center">
                         <div class="w-3 h-3 bg-slate-600"></div>
-                        <p class="font-heading pl-5 text-xs md:text-lg">Rezervacija: {{ $activeReservation}}</p>
+                        <p class="font-heading pl-5 text-xs md:text-lg">Zauzeto</p>
                     </div>
                     <div class="flex items-center">
                         <div class="w-3 h-3 bg-[#D9A404]"></div>
-                        <p class="font-heading pl-5 text-xs md:text-lg">Na čekanju: {{ $pendingReservation }}</p>
+                        <p class="font-heading pl-5 text-xs md:text-lg">Na čekanju</p>
                     </div>
                     <div class="flex items-center">
                         <div class="w-3 h-3 bg-slate-50 border-2"></div>
-                        <p class="font-heading pl-5 text-xs md:text-lg">Slobodnih stolova: {{ $freeTables }}</p>
+                        <p class="font-heading pl-5 text-xs md:text-lg">Slobodno</p>
                     </div>
 
                 </div>

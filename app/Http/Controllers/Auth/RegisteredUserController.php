@@ -31,6 +31,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'phone' => ['required', 'string', 'max:25', 'unique:' . User::class],
             'image' => ['nullable', 'image', 'max:2048'],
@@ -39,6 +40,7 @@ class RegisteredUserController extends Controller
 
         $userData = [
             'name'     => $request->name,
+            'surname'     => $request->surname,
             'email'    => $request->email,
             'phone'    => $request->phone,
             'password' => Hash::make($request->password),

@@ -29,12 +29,15 @@
     <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
         <thead class="bg-gray-100 text-gray-700 font-heading text-lg">
             <tr>
+                <th class="py-3 px-6 text-left">Ime</th>
+                <th class="py-3 px-6 text-left">Prezime</th>
                 <th class="py-3 px-6 text-left">Naziv</th>
                 <th class="py-3 px-6 text-left">Datum</th>
                 <th class="py-3 px-6 text-left">Stol</th>
                 <th class="py-3 px-6 text-left">Napomena</th>
                 <th class="py-3 px-6 text-left">Broj osoba</th>
-                <th class="py-3 px-6 text-left">Kontakt</th>
+                <th class="py-3 px-6 text-left">Email</th>
+                <th class="py-3 px-6 text-left">Telefon</th>
                 <th class="py-3 px-6 text-left">Status</th>
                 <th class="py-3 px-6 text-center">Akcija</th>
             </tr>
@@ -42,12 +45,15 @@
         <tbody>
             @foreach($reservations as $reservation)
             <tr class="border-b hover:bg-gray-50">
+                <td class="py-3 px-6">{{ $reservation->user->name }}</td>
+                <td class="py-3 px-6">{{ $reservation->user->surname }}</td>
                 <td class="py-3 px-6">{{ $reservation->event->name }}</td>
                 <td class="py-3 px-6">{{ \Carbon\Carbon::parse($reservation->event->date)->format('d/m/Y') }}</td>
                 <td class="py-3 px-6">{{ $reservation->table->name }}</td>
                 <td class="py-3 px-6">{{$reservation->notes }}</td>
                 <td class="py-3 px-6">{{$reservation->num_people }}</td>
                 <td class="py-3 px-6">{{$reservation->user->email }}</td>
+                <td class="py-3 px-6">{{$reservation->user->phone }}</td>
                 <td class="py-3 px-6">
                     <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $reservation->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700' }}">
                         {{ ucfirst($reservation->status) }}

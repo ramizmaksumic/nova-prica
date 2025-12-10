@@ -27,6 +27,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
+        if (! $request->user()->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice');
+        }
+
         // Ako je korisnik želio rezervaciju a nije bio ulogovan → vrati ga na event
         if (session()->has('last_event')) {
             $eventId = session('last_event');

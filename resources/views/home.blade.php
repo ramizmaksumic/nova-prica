@@ -151,7 +151,7 @@
                 <div class="relative p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition">
 
                     <span class="absolute top-2 right-2 bg-secondary text-white font-heading text-xs px-3 py-1 rounded-md">
-                        Akcija
+                        Istaknuto
                     </span>
 
                     <span class="absolute top-10 md:top-14 right-2 bg-red-600 text-white font-heading text-xs px-1 md:px-3 py-1 rounded-md">
@@ -170,14 +170,6 @@
             <div class="flex justify-center md:justify-end gap-x-4 mt-6"> <button class="bg-red-500 text-white px-4 py-2 rounded">&larr;</button> <button class="bg-red-500 text-white px-4 py-2 rounded">&rarr;</button> </div>
         </div>
     </div>
-
-</section>
-
-
-<!-- BANER -->
-
-<section class="bg-white">
-    <div class="bg-primary  h-48 text-center font-heading text-3xl font-medium flex items-center justify-center text-white">Mjesto za baner reklamu</div>
 
 </section>
 

@@ -18,7 +18,7 @@
         th,
         td {
             border: 1px solid #ccc;
-            padding: 6px;
+            padding: 3px;
             text-align: left;
         }
 
@@ -39,23 +39,33 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Korisnik</th>
+
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Datum</th>
                 <th>Događaj</th>
                 <th>Sto</th>
+                <th>Napomena</th>
+                <th>Broj osoba</th>
                 <th>Status</th>
-                <th>Datum</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($reservations as $r)
             <tr>
-                <td>{{ $r->id }}</td>
+
                 <td>{{ $r->user->name }}</td>
+                <td>{{ $r->user->surname }}</td>
+                <td>{{ $r->user->email }}</td>
+                <td>{{ $r->user->phone }}</td>
+                <td>{{ $r->event->date->format('d.m.Y') }}</td>
                 <td>{{ $r->event->name }}</td>
                 <td>{{ $r->table->name }}</td>
+                <td>{{ $r->notes }}</td>
+                <td>{{ $r->num_people }}</td>
                 <td>{{ $r->status }}</td>
-                <td>{{ $r->event->date->format('d.m.Y H:i') }}</td>
             </tr>
             @endforeach
         </tbody>
