@@ -33,7 +33,7 @@ class ReservationDelete extends ModalComponent
         // Email korisniku
         Mail::to($reservation->user->email)
             ->cc('info@novaprica.ba')
-            ->queue(new ReservationDeleteMail($reservation));
+            ->queue(new ReservationDeleteMail());
 
         $this->closeModal();
     }

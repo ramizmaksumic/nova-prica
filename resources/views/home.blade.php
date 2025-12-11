@@ -79,7 +79,7 @@
             <h2 class="font-heading text-2xl font-medium pl-4 pt-3">{{ $event->name }}</h2>
 
             <!-- Kartica sadržaj -->
-            <div class="p-4 flex flex-col justify-between h-32">
+            <div class="p-4 flex flex-col justify-between">
                 <p class="text-gray-600">{{ Str::limit($event->description, 80) }}</p>
                 <a href="{{ route('event.detail', $event->id) }}"
                     class="bg-primary text-white font-heading w-full py-2 mt-4 text-center rounded-lg hover:bg-primary-dark transition">

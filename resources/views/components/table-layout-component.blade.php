@@ -50,17 +50,43 @@ return [$t->id => [
                 <input type="hidden" name="table_id" :value="selectedTable ? selectedTable.id : ''">
 
                 <label class="block mb-2 font-heading">Broj osoba</label>
-                <input
-                    type="number"
-                    name="num_people"
-                    class="w-full border p-2 rounded mb-4"
-                    step="1"
-                    :min="selectedTable ? selectedTable.min_capacity : 1"
-                    :max="selectedTable ? selectedTable.max_capacity : 999"
-                    x-bind:disabled="!selectedTable"
-                    x-model.number="guestCount"
-                    @input="clampGuestCount()"
-                    required>
+
+                <div class="flex items-center gap-3 mb-4">
+
+                    <!-- MINUS -->
+                    <button
+                        type="button"
+                        class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold hover:bg-gray-300"
+                        @click="
+            if (selectedTable && guestCount > selectedTable.min_capacity) {
+                guestCount--;
+            }
+        "
+                        :disabled="!selectedTable">−</button>
+
+                    <!-- PRIKAZ BROJA (read-only input) -->
+                    <input
+                        type="number"
+                        name="num_people"
+                        class="w-20 text-center border p-2 rounded"
+                        x-model.number="guestCount"
+                        readonly>
+
+                    <!-- PLUS -->
+                    <button
+                        type="button"
+                        class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold hover:bg-gray-300"
+                        @click="
+            if (selectedTable && guestCount < selectedTable.max_capacity) {
+                guestCount++;
+            }
+        "
+                        :disabled="!selectedTable">+</button>
+                </div>
+
+
+
+
 
                 <label for="notes" class="block mb-2 font-heading">Dodatna napomena</label>
                 <input type="text" name="notes" class="w-full rounded-md mb-5">
