@@ -14,21 +14,10 @@ class ReservationDeleteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $reservation;
-
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(Reservation $reservation)
-    {
-        $this->reservation = $reservation;
-    }
-
     public function build()
     {
-        return $this->subject('Izbrisana rezervacija')
-            ->view('emails.reservation-deleted')
-            ->with('reservation');
+        return $this->subject('Brisanje rezervacije ')
+            ->view('emails.reservation-delete');
     }
 
     /**
@@ -37,7 +26,7 @@ class ReservationDeleteMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reservation Delete Mail',
+            subject: 'Rezervacija izbrisana',
         );
     }
 

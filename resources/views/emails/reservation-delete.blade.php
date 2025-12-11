@@ -1,17 +1,11 @@
+<p>Vasa rezevacija je izbrisana</p>
+
 @component('mail::message')
-# Izbrisana rezervacija
-
-Korisnik **{{ $reservation->user->name }}** je izbrisao svoju rezervaciju.
-
-**Detalji:**
-- Događaj: {{ $reservation->event->name }}
-- Stol: {{ $reservation->table->name }}
-- Broj osoba: {{ $reservation->num_people }}
-- Napomena: {{ $reservation->notes ?? 'Nema napomene' }}
-- Datum: {{ $reservation->event->date->format('d.m.Y H:i') }}
+# Rezervacija izbrisana
 
 
 
-Hvala,
-**Sistem rezervacija**
+Hvala što koristite naš sistem rezervacija!
+Srdačan pozdrav,
+**Vaš tim iz restorana**
 @endcomponent

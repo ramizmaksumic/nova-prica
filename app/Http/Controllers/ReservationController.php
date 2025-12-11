@@ -75,7 +75,7 @@ class ReservationController extends Controller
 
 
 
-        return redirect()->back()->with('success', 'Rezervacija je uspješno kreirana.');
+        return redirect()->back()->with('success', 'Rezervacija je uspješno kreirana i nalazi se na čekanju. Povratne informacije od administratora će vam doći na email. Hvala.');
     }
 
     /**

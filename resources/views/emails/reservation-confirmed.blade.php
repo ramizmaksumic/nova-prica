@@ -1,4 +1,4 @@
-<p>Vasa rezevacija je uspješna.</p>
+<p>Vasa rezevacija je primljena.</p>
 
 @component('mail::message')
 # Potvrda rezervacije

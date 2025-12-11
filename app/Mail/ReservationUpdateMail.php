@@ -21,13 +21,12 @@ class ReservationUpdateMail extends Mailable
      */
     public function __construct(Reservation $reservation)
     {
-
         $this->reservation = $reservation;
     }
 
     public function build()
     {
-        return $this->subject('Ažurirana rezervacija')
+        return $this->subject('Azurirana rezervacije ')
             ->view('emails.reservation-updated')
             ->with('reservation');
     }
@@ -38,7 +37,7 @@ class ReservationUpdateMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reservation Update Mail',
+            subject: 'Azurirana rezervacija',
         );
     }
 

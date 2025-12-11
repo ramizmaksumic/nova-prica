@@ -1,18 +1,24 @@
+<p>Vasa rezevacija je ažurirana.</p>
+
 @component('mail::message')
-# Ažurirana rezervacija
+# Rezervacija ažurirana
 
-Korisnik **{{ $reservation->user->name }}** je ažurirao svoju rezervaciju.
+Poštovani {{ $reservation->user->name }},
 
-**Detalji:**
-- Događaj: {{ $reservation->event->name }}
+Vaša rezervacija za događaj **{{ $reservation->event->name }}** je ažurirana.
+
+**Detalji rezervacije:**
 - Stol: {{ $reservation->table->name }}
 - Broj osoba: {{ $reservation->num_people }}
-- Napomena: {{ $reservation->notes ?? 'Nema napomene' }}
-- Status: {{ $reservation->status}}
-- Datum: {{ $reservation->event->date->format('d.m.Y H:i') }}
+- Datum događaja: {{ $reservation->event->date->format('d.m.Y H:i') }}
+- Status: {{ ucfirst($reservation->status) }}
+- Dodatna napomena: {{ ucfirst($reservation->notes) }}
 
+@component('mail::button', ['url' => route('event.detail', $reservation->event->id)])
+Pogledaj događaj
+@endcomponent
 
-
-Hvala,
-**Nova prča, gastro pub**
+Hvala što koristite naš sistem rezervacija!
+Srdačan pozdrav,
+**Vaš tim iz restorana**
 @endcomponent

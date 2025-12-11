@@ -10,7 +10,7 @@
     </div>
 </section>
 
-<section class="px-20 py-20 bg-white">
+<section class="px-5 md:px-20 py-20 bg-white">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <!-- IMAGE -->
@@ -38,7 +38,7 @@
 </section>
 
 <!-- TIMELINE SECTION -->
-<section class="px-20 py-20 bg-slate-100">
+<section class="px-5 md:spx-20 py-20 bg-slate-100">
     <div class="text-center mb-12">
         <h2 class="font-heading text-4xl font-bold">Kako izvršiti rezervaciju?</h2>
         <p class="font-body mt-3">Proces rezervacije je jednostavan i traje manje od jedne minute.</p>
@@ -86,7 +86,7 @@
 </section>
 
 <!-- WHY US SECTION -->
-<section class="px-20 py-20 bg-white">
+<section class="px-5 md:px-20 py-20 bg-white">
     <div class="text-center mb-12">
         <h2 class="font-heading text-4xl font-bold">Zašto izabrati nas?</h2>
         <p class="font-body mt-3">Stvaramo atmosferu koju ljudi pamte i rado se vraćaju.</p>

@@ -60,15 +60,42 @@
                 </form>
             </div>
             @else
-            <a href="{{ route('login') }}"
-                class="p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition">
-                <i class="fa-solid fa-right-to-bracket text-lg"></i>
-            </a>
+            <div x-data="{ openUserMenu: false }" class="relative">
 
-            <a href="{{ route('register') }}"
-                class="p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition">
-                <i class="fa-solid fa-user text-lg"></i>
-            </a>
+                <!-- Trigger -->
+                <button @click="openUserMenu = !openUserMenu"
+                    class="flex items-center gap-x-2 border px-3 py-1 rounded-md hover:bg-gray-100 transition">
+
+                    <i class="fa-solid fa-user text-lg"></i>
+                    <span class="font-heading text-sm">Profil</span>
+
+                    <i class="fa-solid fa-chevron-down text-xs transition"
+                        :class="openUserMenu ? 'rotate-180' : ''"></i>
+                </button>
+
+                <!-- Dropdown meni -->
+                <div x-show="openUserMenu"
+                    x-cloak
+                    x-transition
+                    @click.away="openUserMenu = false"
+                    class="meni absolute right-0 mt-3 bg-white shadow-lg rounded-md p-4 w-48 flex flex-col gap-y-3 z-50">
+
+                    <a href="{{ route('login') }}" class="p-2 hover:bg-slate-100">
+                        <span class=" flex gap-x-3 items-center">
+
+                            <i class="fa-solid fa-right-to-bracket text-sm"></i>
+                            <p class="text-sm">Prijavi se</p>
+                        </span>
+                    </a>
+                    <a href="{{ route('register') }}" class="p-2 hover:bg-slate-100">
+                        <span class=" flex gap-x-3 items-center">
+
+                            <i class="fa-solid fa-user text-sm"></i>
+                            <p class="text-sm">Kreiraj profil</p>
+                        </span>
+                    </a>
+                </div>
+            </div>
             @endauth
 
             <button x-data @click="$dispatch('toggle-mobile-menu')"
@@ -137,10 +164,10 @@
                 </form>
                 @else
                 <a href="{{ route('login') }}" class="font-heading block bg-black text-white w-full text-center py-2 rounded mb-2">
-                    Login
+                    Prijava
                 </a>
                 <a href="{{ route('register') }}" class="font-heading block bg-gray-200 text-center py-2 rounded">
-                    Register
+                    Kreiraj profil
                 </a>
                 @endauth
             </div>
