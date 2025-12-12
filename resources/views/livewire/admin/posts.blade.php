@@ -1,5 +1,3 @@
-@livewireStyles
-
 <div class="space-y-8">
     <div class="flex justify-between">
         <h2 class="font-heading text-2xl font-bold text-gray-800">Novosti</h2>
@@ -44,11 +42,13 @@
             @endforeach
         </tbody>
     </table>
+
+    <div>
+        {{ $posts->links() }}
+    </div>
     @if (session()->has('message'))
     <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
         {{ session('message') }}
     </div>
     @endif
 </div>
-
-@livewireScripts

@@ -22,10 +22,11 @@
 
         <div>
             <label class="block font-heading mb-1">Rezervisan</label>
-            <select wire:model="is_reserved" class="w-full rounded">
+            <select wire:model.defer="is_reserved" class="w-full rounded">
                 <option value="1">Da</option>
                 <option value="0">Ne</option>
             </select>
+
         </div>
 
         <div class="flex justify-end">

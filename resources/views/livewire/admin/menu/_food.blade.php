@@ -33,4 +33,8 @@
             @endforeach
         </tbody>
     </table>
+    <div>
+
+        {{ $foodItems->links() }}
+    </div>
 </div>

@@ -35,10 +35,13 @@ class TableUpdate extends ModalComponent
             'min_capacity' => 'required|integer|min:2|',
             'max_capacity' => 'required|integer|max:8',
             'description' => 'nullable|string|max:255',
-            'is_reserved' => 'string'
+            'is_reserved' => 'required|boolean',
+
         ]);
 
         $table = Table::findOrFail($this->tableId);
+        $this->is_reserved = (int) $this->is_reserved;
+
         $table->update([
             'name' => $this->name,
             'min_capacity' => $this->min_capacity,

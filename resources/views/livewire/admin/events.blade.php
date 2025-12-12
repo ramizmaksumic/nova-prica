@@ -1,5 +1,3 @@
-@livewireStyles
-
 <div class="space-y-8">
     <div class="flex justify-between">
         <h2 class="font-heading text-2xl font-bold text-gray-800">Događaji</h2>
@@ -19,6 +17,7 @@
                 <th class="py-3 px-6 text-left">Naziv</th>
                 <th class="py-3 px-6 text-left">Datum</th>
                 <th class="py-3 px-6 text-left">Status</th>
+                <th class="py-3 px-6 text-left">Slika</th>
                 <th class="py-3 px-6 text-center">Akcija</th>
             </tr>
         </thead>
@@ -32,6 +31,7 @@
                         {{ ucfirst($event->status) }}
                     </span>
                 </td>
+                <td class="py-3 px-6"><img src="{{ asset('storage/'. $event->image) }}" alt="{{ $event->name}}" class="w-24 rounded"></td>
                 <td class="py-3 px-6 text-center">
                     <button
                         wire:click="$dispatch('openModal', { component: 'admin.events-update', arguments: { eventId: {{ $event->id }} } })"
@@ -49,11 +49,13 @@
             @endforeach
         </tbody>
     </table>
+
+    <div>
+        {{ $events->links() }}
+    </div>
     @if (session()->has('message'))
     <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
         {{ session('message') }}
     </div>
     @endif
 </div>
-
-@livewireScripts

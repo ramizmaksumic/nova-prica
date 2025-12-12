@@ -48,6 +48,7 @@ class EventsUpdate extends ModalComponent
 
         if ($this->newImage) {
             $validated['image'] = $this->newImage->store('events', 'public');
+            $this->image = $validated['image'];
         } else {
             $validated['image'] = $this->image;
         }
@@ -55,8 +56,9 @@ class EventsUpdate extends ModalComponent
         $event = Event::findOrFail($this->eventId);
         $event->update($validated);
 
+        $this->dispatch('eventUpdated')->to(\App\Livewire\Admin\Events::class);
+
         $this->closeModal();
-        $this->dispatch('eventUpdated');
     }
 
     public function render()

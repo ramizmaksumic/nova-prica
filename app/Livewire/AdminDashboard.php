@@ -12,15 +12,16 @@ class AdminDashboard extends Component
 
     public $eventsCount;
     public $reservationsCount;
-    public $tablesCount;
 
     public $reservationPending;
+
+    public $reservationActive;
 
     public function mount()
     {
         $this->eventsCount = Event::count();
         $this->reservationsCount = Reservation::count();
-        $this->tablesCount = Table::count();
+        $this->reservationActive = Reservation::where('status', 'active')->count();
         $this->reservationPending = Reservation::where('status', 'pending')->count();
     }
     public function render()

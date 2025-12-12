@@ -33,4 +33,9 @@
             @endforeach
         </tbody>
     </table>
+
+    <div>
+
+        {{ $drinkItems->links() }}
+    </div>
 </div>

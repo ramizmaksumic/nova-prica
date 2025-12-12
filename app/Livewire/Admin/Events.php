@@ -5,33 +5,29 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 
 use App\Models\Event;
+use Livewire\WithPagination;
 
 class Events extends Component
 {
-    protected $listeners = ['eventUpdated' => '$refresh', 'eventCreated' => '$refresh'];
 
-    public $events;
-
-    public function mount()
-    {
-        $this->events = Event::all();
-    }
+    use WithPagination;
+    protected $listeners = [
+        'eventUpdated' => '$refresh',
+        'eventCreated' => '$refresh',
+        'eventDeleted' => '$refresh',
+    ];
 
     public function deleteEvent($id)
     {
-        $event = Event::find($id);
+        Event::find($id)?->delete();
 
-        if ($event) {
-            $event->delete();
-            $this->dispatch('eventDeleted');
-            session()->flash('message', 'Događaj je uspješno obrisan.');
-        }
-
-        $this->events = \App\Models\Event::latest()->get();
+        session()->flash('message', 'Događaj je uspješno obrisan.');
     }
 
     public function render()
     {
-        return view('livewire.admin.events')->extends('admin.dashboard')->section('content');
+        return view('livewire.admin.events', [
+            'events' => Event::paginate(10),
+        ])->extends('admin.dashboard')->section('content');
     }
 }

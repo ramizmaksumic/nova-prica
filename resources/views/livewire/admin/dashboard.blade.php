@@ -10,8 +10,8 @@
     </div>
 
     <div class="bg-white rounded-xl shadow p-6 text-center">
-        <p class="font-heading text-2xl text-primary font-bold">{{ $tablesCount }}</p>
-        <p class="text-gray-600 mt-1">Ukupno stolova</p>
+        <p class="font-heading text-2xl text-primary font-bold">{{ $reservationActive }}</p>
+        <p class="text-gray-600 mt-1">Potvrđenih rezervacija</p>
     </div>
     <div class="bg-white rounded-xl shadow p-6 text-center">
         <p class="font-heading text-2xl text-primary font-bold">{{ $reservationPending }}</p>

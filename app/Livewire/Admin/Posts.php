@@ -13,7 +13,7 @@ class Posts extends ModalComponent
     public function render()
     {
 
-        $posts = Post::all();
+        $posts = Post::paginate(10);
         return view('livewire.admin.posts', compact('posts'))->extends('admin.dashboard')->section('content');
     }
 }

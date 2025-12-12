@@ -31,17 +31,23 @@
             @enderror
         </div>
         <div>
-            <label class="block font-heading mb-1">Trenutna slika</label>
-            <img src="{{ asset('storage/' . $image) }}" class="w-32 rounded mb-2">
-        </div>
+            <label class="block font-heading mb-1">Slika</label>
 
-        <div>
-            <label class="block font-heading mb-1">Nova slika (opcionalno)</label>
-            <input type="file" wire:model="image" class="w-full rounded">
-            @error('image')
+            {{-- Preview nove slike --}}
+            @if ($newImage)
+            <img src="{{ $newImage->temporaryUrl() }}" class="w-32 rounded mb-2">
+            {{-- Postojeća slika --}}
+            @elseif ($image)
+            <img src="{{ asset('storage/' . $image) }}" class="w-32 rounded mb-2">
+            @endif
+
+            <input type="file" wire:model="newImage" class="w-full rounded">
+
+            @error('newImage')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
+
         <div>
             <label class="block font-heading mb-1">Status</label>
             <select wire:model="status" class="w-full rounded">

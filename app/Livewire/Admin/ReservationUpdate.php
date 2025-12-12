@@ -50,6 +50,8 @@ class ReservationUpdate extends ModalComponent
             'notes' => $this->notes,
         ]);
 
+        $reservation->load('user');
+
         // Email korisniku
         Mail::to($reservation->user->email)
             ->cc('info@novaprica.ba')
