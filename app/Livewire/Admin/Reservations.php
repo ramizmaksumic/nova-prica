@@ -35,11 +35,14 @@ class Reservations extends Component
                         fn($q) =>
                         $q->where('name', 'like', "%{$search}%")
                     )
-                        ->orWhereHas(
-                            'user',
-                            fn($q) =>
+                        ->orWhereHas('user', function ($q) use ($search) {
                             $q->where('name', 'like', "%{$search}%")
-                        )
+                                ->orWhere('surname', 'like', "%{$search}%")
+                                ->orWhereRaw(
+                                    "CONCAT(name, ' ', surname) LIKE ?",
+                                    ["%{$search}%"]
+                                );
+                        })
                         ->orWhereHas(
                             'table',
                             fn($q) =>
@@ -76,7 +79,7 @@ class Reservations extends Component
 
         $dompdf = new \Dompdf\Dompdf();
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
 
         return response()->streamDownload(function () use ($dompdf) {

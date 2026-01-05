@@ -13,6 +13,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            margin-left: 5px;
         }
 
         th,
@@ -50,6 +51,7 @@
                 <th>Napomena</th>
                 <th>Broj osoba</th>
                 <th>Status</th>
+                <th>DOLAZAK</th>
             </tr>
         </thead>
         <tbody>
@@ -66,6 +68,7 @@
                 <td>{{ $r->notes }}</td>
                 <td>{{ $r->num_people }}</td>
                 <td>{{ $r->status }}</td>
+                <td></td>
             </tr>
             @endforeach
         </tbody>
