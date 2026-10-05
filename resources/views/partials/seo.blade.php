@@ -1,13 +1,13 @@
 @php
-    $siteName = config('app.name', 'Nova Priča');
-    $pageTitle = trim($__env->yieldContent('title'));
-    $fullTitle = $pageTitle ? $pageTitle . ' | ' . $siteName : $siteName . ' – noćni klub i gastro pub, Mostar';
-    $description = trim($__env->yieldContent('meta_description'))
-        ?: 'Nova Priča, Mostar – vikend događaji, live muzika i rezervacija stolova online. Pogledajte nadolazeće događaje i rezervišite svoj stol.';
-    $ogImage = trim($__env->yieldContent('og_image')) ?: asset('images/naslovna.jpg');
-    // Canonical bez query parametara, uvijek na glavnom hostu iz APP_URL.
-    $canonical = rtrim(config('app.url'), '/') . '/' . ltrim(request()->path(), '/');
-    $canonical = rtrim($canonical, '/') ?: config('app.url');
+$siteName = config('app.name', 'Nova Priča');
+$pageTitle = trim($__env->yieldContent('title'));
+$fullTitle = $pageTitle ? $pageTitle . ' | ' . $siteName : $siteName . ' – Gastro pub | Mostar';
+$description = trim($__env->yieldContent('meta_description'))
+?: 'Nova Priča, Mostar – vikend događaji, live muzika i rezervacija stolova online. Pogledajte nadolazeće događaje i rezervišite svoj stol.';
+$ogImage = trim($__env->yieldContent('og_image')) ?: asset('images/naslovna.jpg');
+// Canonical bez query parametara, uvijek na glavnom hostu iz APP_URL.
+$canonical = rtrim(config('app.url'), '/') . '/' . ltrim(request()->path(), '/');
+$canonical = rtrim($canonical, '/') ?: config('app.url');
 @endphp
 <title>{{ $fullTitle }}</title>
 <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($description), 160) }}">
