@@ -1,24 +1,25 @@
-<p>Vasa rezevacija je primljena.</p>
+<x-mail::message>
+# Rezervacija primljena
 
-@component('mail::message')
-# Potvrda rezervacije
+Poštovani {{ $reservation->guestDisplayName() }},
 
-Poštovani {{ $reservation->user->name }},
-
-Vaša rezervacija za događaj **{{ $reservation->event->name }}** je uspješno kreirana.
+Vaša rezervacija za događaj **{{ $reservation->event->name }}** je zaprimljena i nalazi se **na čekanju**. Javit ćemo Vam se kada je potvrdimo.
 
 **Detalji rezervacije:**
 - Stol: {{ $reservation->table->name }}
 - Broj osoba: {{ $reservation->num_people }}
 - Datum događaja: {{ $reservation->event->date->format('d.m.Y H:i') }}
-- Status: {{ ucfirst($reservation->status) }}
-- Dodatna napomena: {{ ucfirst($reservation->notes) }}
+- Status: {{ $reservation->statusLabel() }}
+@if($reservation->notes)
+- Napomena: {{ $reservation->notes }}
+@endif
 
-@component('mail::button', ['url' => route('event.detail', $reservation->event->id)])
+Napomena: uz rezervaciju je obavezna boca pića.
+
+<x-mail::button :url="route('event.detail', $reservation->event)">
 Pogledaj događaj
-@endcomponent
+</x-mail::button>
 
-Hvala što koristite naš sistem rezervacija!
-Srdačan pozdrav,
-**Vaš tim iz restorana**
-@endcomponent
+Srdačan pozdrav,<br>
+{{ config('app.name') }}
+</x-mail::message>

@@ -1,7 +1,7 @@
 <div class="space-y-8">
     <div class="flex justify-between">
 
-        <h2 class="font-heading text-2xl font-bold text-gray-800">Događaji</h2>
+        <h2 class="font-heading text-2xl font-bold text-gray-800">Stolovi</h2>
         <button
             wire:click="$dispatch('openModal', { component: 'admin.table-create' })"
 
@@ -17,7 +17,6 @@
                 <th class="py-3 px-6 text-left">Min. Kapacitet</th>
                 <th class="py-3 px-6 text-left">Max. Kapacitet</th>
                 <th class="py-3 px-6 text-left">Opis</th>
-                <th class="py-3 px-6 text-left">Rezervisan</th>
                 <th class="py-3 px-6 text-center">Akcija</th>
             </tr>
         </thead>
@@ -29,7 +28,6 @@
                 <td class="py-3 px-6">{{$table->min_capacity }}</td>
                 <td class="py-3 px-6">{{$table->max_capacity }}</td>
                 <td class="py-3 px-6">{{$table->description }}</td>
-                <td class="py-3 px-6">{{$table->is_reserved }}</td>
                 <td class="py-3 px-6 text-center">
                     <button
                         wire:click="$dispatch('openModal', { component: 'admin.table-update', arguments: { tableId: {{ $table->id }} } })"

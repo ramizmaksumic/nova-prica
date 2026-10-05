@@ -1,24 +1,31 @@
-<p>Vasa rezevacija je ažurirana.</p>
-
-@component('mail::message')
+<x-mail::message>
+@if($reservation->status === \App\Models\Reservation::STATUS_CANCELLED)
+# Rezervacija otkazana
+@else
 # Rezervacija ažurirana
+@endif
 
-Poštovani {{ $reservation->user->name }},
+Poštovani {{ $reservation->guestDisplayName() }},
 
+@if($reservation->status === \App\Models\Reservation::STATUS_CANCELLED)
+Vaša rezervacija za događaj **{{ $reservation->event->name }}** je otkazana.
+@else
 Vaša rezervacija za događaj **{{ $reservation->event->name }}** je ažurirana.
+@endif
 
 **Detalji rezervacije:**
 - Stol: {{ $reservation->table->name }}
 - Broj osoba: {{ $reservation->num_people }}
 - Datum događaja: {{ $reservation->event->date->format('d.m.Y H:i') }}
-- Status: {{ ucfirst($reservation->status) }}
-- Dodatna napomena: {{ ucfirst($reservation->notes) }}
+- Status: **{{ $reservation->statusLabel() }}**
+@if($reservation->notes)
+- Napomena: {{ $reservation->notes }}
+@endif
 
-@component('mail::button', ['url' => route('event.detail', $reservation->event->id)])
+<x-mail::button :url="route('event.detail', $reservation->event)">
 Pogledaj događaj
-@endcomponent
+</x-mail::button>
 
-Hvala što koristite naš sistem rezervacija!
-Srdačan pozdrav,
-**Vaš tim iz restorana**
-@endcomponent
+Srdačan pozdrav,<br>
+{{ config('app.name') }}
+</x-mail::message>

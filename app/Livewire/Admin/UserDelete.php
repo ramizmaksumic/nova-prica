@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\User;
 use LivewireUI\Modal\ModalComponent;
 
 class UserDelete extends ModalComponent
 {
+    use RequiresAdmin;
     public $userId;
     public $name;
 
@@ -20,11 +22,14 @@ class UserDelete extends ModalComponent
 
     public function delete()
     {
+        if ($this->userId === auth()->id()) {
+            $this->addError('delete', 'Ne možete obrisati vlastiti nalog.');
+            return;
+        }
+
         $user = User::findOrFail($this->userId);
 
-        // Ako želiš da se obrišu i rezervacije korisnika (opciono)
-        // $user->reservations()->delete();
-
+        // Rezervacije korisnika se brišu kaskadno (foreign key), čime se oslobađaju i stolovi.
         $user->delete();
 
         $this->dispatch('userDeleted');

@@ -8,45 +8,39 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class ReservationDeleteMail extends Mailable
+/**
+ * Šalje se nakon što je rezervacija obrisana, pa ne čuva model (ne bi se mogao učitati u queue jobu)
+ * nego samo podatke potrebne za mail.
+ */
+class ReservationDeleteMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
 
-    public function build()
+    public string $guestName;
+    public string $eventName;
+    public string $eventDate;
+    public string $tableName;
+
+    public function __construct(Reservation $reservation)
     {
-        return $this->subject('Brisanje rezervacije ')
-            ->view('emails.reservation-delete');
+        $this->guestName = $reservation->guestDisplayName();
+        $this->eventName = $reservation->event->name;
+        $this->eventDate = $reservation->event->date->format('d.m.Y H:i');
+        $this->tableName = $reservation->table->name;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rezervacija izbrisana',
+            subject: 'Rezervacija otkazana – ' . $this->eventName,
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
             markdown: 'emails.reservation-delete',
         );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
     }
 }

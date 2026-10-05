@@ -3,10 +3,26 @@
 
     <form wire:submit.prevent="update" class="space-y-4">
 
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="font-heading">Ime</label>
+                <input type="text" wire:model="name" class="w-full rounded">
+                @error('name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+            <div>
+                <label class="font-heading">Prezime</label>
+                <input type="text" wire:model="surname" class="w-full rounded">
+                @error('surname') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+        </div>
+
         <div>
-            <label class="font-heading">Ime i prezime</label>
-            <input type="text" wire:model="name" class="w-full rounded">
-            @error('name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            <label class="font-heading">Ovlaštenje</label>
+            <select wire:model="role" class="w-full rounded">
+                <option value="user">Korisnik</option>
+                <option value="admin">Administrator (upravlja rezervacijama, menijem, događajima)</option>
+            </select>
+            @error('role') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <div>

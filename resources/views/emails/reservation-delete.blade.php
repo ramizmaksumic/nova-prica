@@ -1,11 +1,12 @@
-<p>Vasa rezevacija je izbrisana</p>
+<x-mail::message>
+# Rezervacija otkazana
 
-@component('mail::message')
-# Rezervacija izbrisana
+Poštovani {{ $guestName }},
 
+Vaša rezervacija za događaj **{{ $eventName }}** ({{ $eventDate }}), stol {{ $tableName }}, je otkazana.
 
+Ako mislite da je došlo do greške, kontaktirajte nas.
 
-Hvala što koristite naš sistem rezervacija!
-Srdačan pozdrav,
-**Vaš tim iz restorana**
-@endcomponent
+Srdačan pozdrav,<br>
+{{ config('app.name') }}
+</x-mail::message>

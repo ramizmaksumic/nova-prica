@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\NewsletterContact;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Contacts extends Component
 {
+    use RequiresAdmin;
 
     use WithPagination;
 

@@ -6,7 +6,10 @@
     <p class="text-lg mb-6">
         Da li ste sigurni da želite obrisati korisnika:
         <strong>{{ $name }}</strong>?
+        <span class="block text-sm text-gray-500 mt-2">Brišu se i sve rezervacije ovog korisnika.</span>
     </p>
+
+    @error('delete') <p class="bg-red-100 text-red-700 p-3 rounded mb-6">{{ $message }}</p> @enderror
 
     <div class="flex justify-end gap-x-3">
         <button wire:click="$dispatch('closeModal')"

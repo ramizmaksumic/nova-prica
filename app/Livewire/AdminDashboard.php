@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Event;
 use App\Models\Reservation;
 use App\Models\Table;
@@ -9,6 +10,7 @@ use Livewire\Component;
 
 class AdminDashboard extends Component
 {
+    use RequiresAdmin;
 
     public $eventsCount;
     public $reservationsCount;

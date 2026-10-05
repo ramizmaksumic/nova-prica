@@ -1,24 +1,19 @@
-@props(['event'])
+@props(['event', 'tables', 'reservedTables' => [], 'pendingTables' => [], 'canReserve' => false])
 
 @php
-use App\Models\Table;
-// Učitaj sve stolove i pretvori u array keyBy id -> radi čisto @js
-$tables = Table::all()->mapWithKeys(function($t) {
-return [$t->id => [
-'id' => (int)$t->id,
-'name' => $t->name,
-'min_capacity' => (int)$t->min_capacity,
-'max_capacity' => (int)$t->max_capacity,
-'description' => $t->description,
-'is_reserved' => (bool)$t->is_reserved,
-]];
-})->toArray();
+// keyBy id -> radi čisto @js
+$tablesById = $tables->mapWithKeys(fn ($t) => [$t->id => [
+    'id' => (int) $t->id,
+    'name' => $t->name,
+    'min_capacity' => (int) $t->min_capacity,
+    'max_capacity' => (int) $t->max_capacity,
+    'description' => $t->description,
+]])->toArray();
 @endphp
 
-<div x-data="tableLayout(@js($tables))" class="relative">
+<div x-data="tableLayout(@js($tablesById), @js($canReserve))" class="relative">
 
-    {{-- SVG mapa (ostavi svoj include) --}}
-    @include('svg.mapa-stolova')
+    @include('svg.mapa-stolova', ['reservedTables' => $reservedTables, 'pendingTables' => $pendingTables])
 
     @auth
     <!-- Modal -->
@@ -43,7 +38,7 @@ return [$t->id => [
                 &nbsp;osoba
             </p>
 
-            <form method="POST" action="{{ route('reservations.store') }}" x-on:submit="if(!selectedTable){ $event.preventDefault(); alert('Molimo izaberite sto.'); }">
+            <form method="POST" action="{{ route('reservations.store') }}" x-on:submit="if (!selectedTable || submitting) { $event.preventDefault(); return; } submitting = true;">
                 @csrf
                 <input type="hidden" name="event_id" value="{{ $event->id }}">
                 {{-- value se postavlja iz Alpine (dvosmjerno) --}}
@@ -57,11 +52,7 @@ return [$t->id => [
                     <button
                         type="button"
                         class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold hover:bg-gray-300"
-                        @click="
-            if (selectedTable && guestCount > selectedTable.min_capacity) {
-                guestCount--;
-            }
-        "
+                        @click="if (selectedTable && guestCount > selectedTable.min_capacity) { guestCount--; }"
                         :disabled="!selectedTable">−</button>
 
                     <!-- PRIKAZ BROJA (read-only input) -->
@@ -76,56 +67,44 @@ return [$t->id => [
                     <button
                         type="button"
                         class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xl font-bold hover:bg-gray-300"
-                        @click="
-            if (selectedTable && guestCount < selectedTable.max_capacity) {
-                guestCount++;
-            }
-        "
+                        @click="if (selectedTable && guestCount < selectedTable.max_capacity) { guestCount++; }"
                         :disabled="!selectedTable">+</button>
                 </div>
 
-
-
-
-
                 <label for="notes" class="block mb-2 font-heading">Dodatna napomena</label>
-                <input type="text" name="notes" class="w-full rounded-md mb-5">
+                <input type="text" id="notes" name="notes" maxlength="255" class="w-full rounded-md mb-5">
 
-                <button type="submit" class="w-full bg-primary text-white py-2 rounded-md" :disabled="!selectedTable">
-                    Potvrdi rezervaciju
+                <button type="submit" class="w-full bg-primary text-white py-2 rounded-md disabled:opacity-60" :disabled="!selectedTable || submitting">
+                    <span x-show="!submitting">Potvrdi rezervaciju</span>
+                    <span x-show="submitting">Šaljem...</span>
                 </button>
             </form>
 
-
-
-
-
         </div>
     </div>
-
     @endauth
 </div>
 
 <script>
-    function tableLayout(tables) {
+    function tableLayout(tables, canReserve) {
         return {
             tables: tables || {}, // objekt: id -> {id,name,min_capacity,...}
+            canReserve: canReserve,
             showModal: false,
             selectedTable: null,
             guestCount: 1,
+            submitting: false,
 
             // pozove se iz SVG: openModal($el.dataset.tableId)
             openModal(id) {
-                // id može biti string (iz dataset) - konvertujemo u integer
-                const numericId = Number(id);
-                // pokušaj dohvatiti po numeric idu ili string key-u
-                this.selectedTable = this.tables[numericId] ?? this.tables[id] ?? null;
+                if (!this.canReserve) return;
+
+                this.selectedTable = this.tables[Number(id)] ?? null;
                 if (this.selectedTable) {
-                    // inicijalno postavi guestCount na min_capacity (ili 1 ako nema)
                     this.guestCount = this.selectedTable.min_capacity ?? 1;
                     this.showModal = true;
                 } else {
-                    console.warn('Table with id', id, 'not found in tables object', this.tables);
+                    console.warn('Table with id', id, 'not found');
                 }
             },
 
@@ -134,14 +113,6 @@ return [$t->id => [
                 this.selectedTable = null;
                 this.guestCount = 1;
             },
-
-            clampGuestCount() {
-                if (!this.selectedTable) return;
-                const min = Number(this.selectedTable.min_capacity) || 1;
-                const max = Number(this.selectedTable.max_capacity) || min;
-                if (this.guestCount < min) this.guestCount = min;
-                if (this.guestCount > max) this.guestCount = max;
-            }
         }
     }
 </script>

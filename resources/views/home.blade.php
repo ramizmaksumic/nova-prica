@@ -1,5 +1,29 @@
 @extends('layouts.app')
 
+@push('structured_data')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'NightClub',
+    'name' => config('app.name'),
+    'url' => config('app.url'),
+    'image' => asset('images/naslovna.jpg'),
+    'logo' => asset('images/NovaPrica.png'),
+    'address' => [
+        '@type' => 'PostalAddress',
+        'streetAddress' => 'Lacina br. 5',
+        'addressLocality' => 'Mostar',
+        'postalCode' => '88000',
+        'addressCountry' => 'BA',
+    ],
+    'sameAs' => [
+        'https://www.facebook.com/novaprica.gastropub',
+        'https://www.instagram.com/novaprica_gastropub/',
+    ],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+</script>
+@endpush
+
 @section('content')
 
 <!-- HERO SLIDER -->

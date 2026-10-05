@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\MenuItem;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class MenuDeleteItem extends ModalComponent
 {
+    use RequiresAdmin;
 
     public $itemId;
 

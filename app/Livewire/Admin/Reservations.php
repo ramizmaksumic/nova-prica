@@ -2,76 +2,76 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
+use App\Models\Event;
+use App\Models\Reservation;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
-use \App\Models\Reservation;
 use Livewire\WithPagination;
-
-use function Laravel\Prompts\search;
 
 class Reservations extends Component
 {
+    use RequiresAdmin;
+
     use WithPagination;
 
-    protected $listeners = ['reservationUpdated' => '$refresh', 'reservationCreated' => 'refresh', 'reservationDeleted' => 'refresh'];
-
+    protected $listeners = ['reservationUpdated' => '$refresh', 'reservationCreated' => '$refresh', 'reservationDeleted' => '$refresh'];
 
     public $search = '';
+    public $eventId = '';
+    public $status = '';
 
-    public function updatingSearch()
+    public function updating($property)
     {
-        $this->resetPage();
+        if (in_array($property, ['search', 'eventId', 'status'], true)) {
+            $this->resetPage();
+        }
     }
 
-
-    public function render()
+    /** Isti upit koriste tabela i PDF, da PDF uvijek odgovara onome što admin vidi. */
+    private function query(): Builder
     {
-        $search = $this->search; // ← Ovo je bitno
+        $search = trim($this->search);
 
-        $reservations = Reservation::with(['event', 'user', 'table'])
+        return Reservation::with(['event', 'user', 'table'])
+            ->when($this->eventId, fn ($q) => $q->where('event_id', $this->eventId))
+            ->when($this->status, fn ($q) => $q->where('status', $this->status))
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($subQuery) use ($search) {
-                    $subQuery->whereHas(
-                        'event',
-                        fn($q) =>
-                        $q->where('name', 'like', "%{$search}%")
-                    )
+                    $subQuery->whereHas('event', fn ($q) => $q->where('name', 'like', "%{$search}%"))
+                        ->orWhere('guest_name', 'like', "%{$search}%")
+                        ->orWhere('guest_phone', 'like', "%{$search}%")
                         ->orWhereHas('user', function ($q) use ($search) {
                             $q->where('name', 'like', "%{$search}%")
                                 ->orWhere('surname', 'like', "%{$search}%")
-                                ->orWhereRaw(
-                                    "CONCAT(name, ' ', surname) LIKE ?",
-                                    ["%{$search}%"]
-                                );
+                                ->orWhere('phone', 'like', "%{$search}%")
+                                ->orWhereRaw("CONCAT(name, ' ', COALESCE(surname, '')) LIKE ?", ["%{$search}%"]);
                         })
-                        ->orWhereHas(
-                            'table',
-                            fn($q) =>
-                            $q->where('name', 'like', "%{$search}%")
-                        );
+                        ->orWhereHas('table', fn ($q) => $q->where('name', 'like', "%{$search}%"));
                 });
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            });
+    }
 
-        return view('livewire.admin.reservation', compact('reservations'))
+    public function render()
+    {
+        $reservations = $this->query()
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('livewire.admin.reservation', [
+            'reservations' => $reservations,
+            'events' => Event::orderByDesc('date')->get(['id', 'name', 'date']),
+        ])
             ->extends('admin.dashboard')
             ->section('content');
     }
 
     public function downloadPdf()
     {
-        $search = $this->search;
-
-        // iste rezervacije koje se prikazuju u tabeli
-        $reservations = Reservation::with(['event', 'user', 'table'])
-            ->when($search, function ($query) use ($search) {
-                $query->where(function ($subQuery) use ($search) {
-                    $subQuery->whereHas('event', fn($q) => $q->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('user', fn($q) => $q->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('table', fn($q) => $q->where('name', 'like', "%{$search}%"));
-                });
-            })
-            ->orderBy('created_at', 'desc')
+        $reservations = $this->query()
+            ->join('tables', 'tables.id', '=', 'reservations.table_id')
+            ->orderBy('tables.name')
+            ->select('reservations.*')
             ->get();
 
         // render HTML u PDF

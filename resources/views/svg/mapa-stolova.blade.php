@@ -17,18 +17,7 @@
 	.st11{fill:#E2E8F0;}
 </style>
 
-@php
-use App\Models\Reservation;
-
-// Dohvati sve rezervisane stolove za ovaj event
-$reservedTables = Reservation::where('event_id', $event->id)->whereIn('status', ['active'])
-    ->pluck('table_id')
-    ->toArray();
-
-	$pendingTables = Reservation::where('event_id', $event->id)->whereIn('status', ['pending'])
-    ->pluck('table_id')
-    ->toArray();
-@endphp
+{{-- $reservedTables i $pendingTables dolaze iz EventController::detail preko x-table-layout-component --}}
 
 
 <path class="st0" d="M1017.93,361.77h-46.16c-6.24,0-11.29-5.06-11.29-11.29V53.23c0-6.24,5.06-11.29,11.29-11.29h46.16

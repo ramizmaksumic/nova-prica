@@ -2,25 +2,18 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Table;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Tables extends Component
 {
+    use RequiresAdmin;
 
     use WithPagination;
 
-    protected $listeners = ['tableUpdated' => 'refresh', 'tableDeleted' => 'refresh', 'tableCreated' => 'refresh'];
-
-    protected $casts = [
-        'is_reserved' => 'boolean',
-    ];
-
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
+    protected $listeners = ['tableUpdated' => '$refresh', 'tableDeleted' => '$refresh', 'tableCreated' => '$refresh'];
 
 
     public function render()

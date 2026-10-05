@@ -56,8 +56,6 @@ return new class extends Migration
 
     private function indexExists(string $table, string $indexName): bool
     {
-        return collect(\DB::select("SHOW INDEX FROM `$table`"))
-            ->pluck('Key_name')
-            ->contains($indexName);
+        return Schema::hasIndex($table, $indexName);
     }
 };

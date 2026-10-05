@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('title', $post->title)
+@section('meta_description', $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->body), 160))
+@section('og_type', 'article')
+@if($post->image)
+@section('og_image', asset('storage/' . $post->image))
+@endif
+
 @section('content')
 
 <!-- HERO SECTION -->

@@ -2,20 +2,24 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
 
 class UserUpdate extends ModalComponent
 {
+    use RequiresAdmin;
+
     use WithFileUploads;
 
     public $userId;
     public $name;
+    public $surname;
     public $email;
     public $phone;
+    public $role;
     public $image;
     public $existingImage;
     public $password; // OPTIONAL password reset
@@ -26,8 +30,10 @@ class UserUpdate extends ModalComponent
 
         $this->userId = $user->id;
         $this->name = $user->name;
+        $this->surname = $user->surname;
         $this->email = $user->email;
         $this->phone = $user->phone;
+        $this->role = $user->role;
         $this->existingImage = $user->image;
     }
 
@@ -35,11 +41,19 @@ class UserUpdate extends ModalComponent
     {
         $validated = $this->validate([
             'name'  => 'required|string|max:255',
+            'surname'  => 'nullable|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $this->userId,
-            'phone' => 'required|string|max:25|unique:users,phone,' . $this->userId,
+            'phone' => 'nullable|string|max:25|unique:users,phone,' . $this->userId,
+            'role' => 'required|in:user,admin',
             'image' => 'nullable|image|max:2048',
             'password' => 'nullable|string|min:8'
         ]);
+
+        // Admin ne može sam sebi oduzeti admin pristup (da ne ostane bez pristupa panelu).
+        if ($this->userId === auth()->id() && $validated['role'] !== 'admin') {
+            $this->addError('role', 'Ne možete sami sebi ukloniti admin ovlaštenje.');
+            return;
+        }
 
         $user = User::findOrFail($this->userId);
 
@@ -57,7 +71,13 @@ class UserUpdate extends ModalComponent
             unset($validated['password']);
         }
 
-        $user->update($validated);
+        // role nije mass-assignable (zaštita od podizanja privilegija), postavlja se eksplicitno.
+        $role = $validated['role'];
+        unset($validated['role']);
+
+        $user->fill($validated);
+        $user->role = $role;
+        $user->save();
 
         $this->dispatch('userUpdated');
         $this->closeModal();

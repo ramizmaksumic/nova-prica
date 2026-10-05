@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'O nama')
+@section('meta_description', 'Upoznajte Novu Priču – noćni klub i gastro pub u Mostaru s vikend događajima i live muzikom.')
+
 @section('content')
 
 <section class="title text-center h-48 flex flex-col justify-center items-center mb-10">

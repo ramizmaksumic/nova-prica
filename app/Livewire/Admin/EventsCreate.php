@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Event;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -9,6 +10,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class EventsCreate extends ModalComponent
 {
+    use RequiresAdmin;
 
     use WithFileUploads;
 
@@ -25,12 +27,14 @@ class EventsCreate extends ModalComponent
         $validated = $this->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:5000',
-            'price' => 'integer',
+            'price' => 'nullable|integer|min:0|max:65000',
             'date' => 'required|date',
-            'status' => 'string|required',
+            'status' => 'required|in:active,inactive',
             'image' => 'nullable|image|max:2048',
-            'link' => 'nullable|string|max:255'
+            'link' => 'nullable|url|max:255'
         ]);
+
+        $validated['link'] = $validated['link'] ?: null;
 
 
 

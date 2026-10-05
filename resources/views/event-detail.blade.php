@@ -1,5 +1,49 @@
 @extends('layouts.app')
 
+@section('title', $event->name . ' – ' . $event->date->format('d.m.Y.'))
+@section('meta_description', $event->date->format('d.m.Y.') . ' u Novoj Priči, Mostar. ' . \Illuminate\Support\Str::limit(strip_tags($event->description), 120) . ' Rezervišite stol online.')
+@if($event->image)
+@section('og_image', asset('storage/' . $event->image))
+@endif
+@if(! $event->isActive())
+@section('noindex', true)
+@endif
+
+@push('structured_data')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Event',
+    'name' => $event->name,
+    'description' => strip_tags((string) $event->description),
+    'startDate' => $event->date->toIso8601String(),
+    'endDate' => $event->endsAt()->toIso8601String(),
+    'eventStatus' => 'https://schema.org/EventScheduled',
+    'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+    'image' => $event->image ? [asset('storage/' . $event->image)] : [asset('images/naslovna.jpg')],
+    'location' => [
+        '@type' => 'Place',
+        'name' => config('app.name'),
+        'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => 'Lacina br. 5',
+            'addressLocality' => 'Mostar',
+            'postalCode' => '88000',
+            'addressCountry' => 'BA',
+        ],
+    ],
+    'organizer' => ['@type' => 'Organization', 'name' => config('app.name'), 'url' => config('app.url')],
+    'offers' => array_filter([
+        '@type' => 'Offer',
+        'url' => $event->link ?: route('event.detail', $event),
+        'price' => $event->price,
+        'priceCurrency' => $event->price !== null ? 'BAM' : null,
+        'availability' => 'https://schema.org/InStock',
+    ], fn ($v) => $v !== null),
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+</script>
+@endpush
+
 @section('content')
 
 <!-- TITLE -->
@@ -34,7 +78,7 @@
             </p>
 
 
-            <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->image }}" class="w-full h-[350px] md:h-[650px] object-cover">
+            <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->name }}" class="w-full h-[350px] md:h-[650px] object-cover">
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -85,9 +129,22 @@
 
                 </div>
                 @else
-                <!-- Render stolova -->
+                @if($event->hasEnded())
+                <p class="mt-5 bg-slate-100 p-3 rounded">Ovaj događaj je završen. Rezervacije više nisu moguće.</p>
+                @elseif($userReservation)
+                <p class="mt-5 bg-slate-100 p-3 rounded">
+                    Već imate rezervaciju za ovaj događaj (stol {{ $userReservation->table->name }}, status: {{ $userReservation->statusLabel() }}).
+                    <a href="{{ route('profile.index') }}" class="text-blue-500">Upravljajte rezervacijom na profilu</a>.
+                </p>
+                @endif
 
-                <x-table-layout-component :event="$event"></x-table-layout-component>
+                <!-- Render stolova -->
+                <x-table-layout-component
+                    :event="$event"
+                    :tables="$tables"
+                    :reserved-tables="$reservedTables"
+                    :pending-tables="$pendingTables"
+                    :can-reserve="$event->acceptsReservations() && ! $userReservation"></x-table-layout-component>
                 @endif
 
 

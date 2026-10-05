@@ -13,7 +13,7 @@
         </div>
         <div>
             <label class="block font-heading mb-1">Opis</label>
-            <input type="text" wire:model="description" class="w-full rounded">
+            <textarea wire:model="description" rows="5" class="w-full rounded"></textarea>
             @error('description')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -27,7 +27,7 @@
         </div>
         <div>
             <label class="block font-heading mb-1">Datum događaja</label>
-            <input type="date" wire:model="date" class="w-full rounded border-1">
+            <input type="datetime-local" wire:model="date" class="w-full rounded border-1">
             @error('date')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror

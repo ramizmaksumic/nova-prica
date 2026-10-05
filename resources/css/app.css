@@ -38,3 +38,7 @@
     animation-name: fadeInRight;
     animation-duration: 1s;
 }
+
+[x-cloak] {
+    display: none !important;
+}

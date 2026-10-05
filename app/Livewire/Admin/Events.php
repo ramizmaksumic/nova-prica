@@ -2,32 +2,27 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Event;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Events extends Component
 {
+    use RequiresAdmin;
 
     use WithPagination;
+
     protected $listeners = [
         'eventUpdated' => '$refresh',
         'eventCreated' => '$refresh',
         'eventDeleted' => '$refresh',
     ];
 
-    public function deleteEvent($id)
-    {
-        Event::find($id)?->delete();
-
-        session()->flash('message', 'Događaj je uspješno obrisan.');
-    }
-
     public function render()
     {
         return view('livewire.admin.events', [
-            'events' => Event::paginate(10),
+            'events' => Event::orderByDesc('date')->paginate(10),
         ])->extends('admin.dashboard')->section('content');
     }
 }

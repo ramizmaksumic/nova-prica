@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    @include('partials.seo')
 
     {{-- Vite uključivanje CSS-a i JS-a --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -41,7 +41,7 @@
         @include('partials.footer')
 
     </div>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    @livewireScripts
 </body>
 
 </html>

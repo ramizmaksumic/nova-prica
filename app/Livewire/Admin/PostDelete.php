@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Post;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class PostDelete extends ModalComponent
 {
+    use RequiresAdmin;
 
     public $postId;
 

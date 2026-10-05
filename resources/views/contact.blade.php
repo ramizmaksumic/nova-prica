@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Kontakt')
+@section('meta_description', 'Kontakt i lokacija: Nova Priča, Lacina br. 5, 88 000 Mostar. Javite nam se za rezervacije i informacije.')
+
 @section('content')
 
 <section class="title text-center h-48 flex flex-col justify-center items-center mb-10 bg-gray-50">

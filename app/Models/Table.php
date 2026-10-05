@@ -13,7 +13,6 @@ class Table extends Model
         'min_capacity',
         'max_capacity',
         'description',
-        'is_reserved',
 
     ];
 

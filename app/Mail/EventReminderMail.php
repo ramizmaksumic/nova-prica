@@ -2,28 +2,33 @@
 
 namespace App\Mail;
 
+use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
-
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EventReminderMail extends Mailable
+class EventReminderMail extends Mailable implements ShouldQueue
 {
-    use SerializesModels;
-    public $event;
-    public $reservation;
+    use Queueable, SerializesModels;
 
-    public function __construct($event, $reservation)
+    public function __construct(public Reservation $reservation)
     {
-        $this->event = $event;
-        $this->reservation = $reservation;
     }
 
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->subject('Podsjetnik za današnji događaj')
-            ->view('emails.event-reminder');
+        return new Envelope(
+            subject: 'Podsjetnik: večeras ' . $this->reservation->event->name,
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            markdown: 'emails.event-reminder',
+        );
     }
 }

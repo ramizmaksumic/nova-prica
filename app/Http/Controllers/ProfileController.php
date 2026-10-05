@@ -15,7 +15,10 @@ class ProfileController extends Controller
     public function index()
     {
         $reservations = \App\Models\Reservation::with(['event', 'table'])
-            ->where('user_id', auth()->id())
+            ->where('reservations.user_id', auth()->id())
+            ->join('events', 'events.id', '=', 'reservations.event_id')
+            ->orderByDesc('events.date')
+            ->select('reservations.*')
             ->get();
 
         return view('profile.profile', compact('reservations'));

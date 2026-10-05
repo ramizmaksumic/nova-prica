@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use Livewire\Component;
@@ -9,10 +10,11 @@ use Livewire\WithPagination;
 
 class Menus extends Component
 {
+    use RequiresAdmin;
 
     use WithPagination;
 
-    protected $listeners = ['menuItemCreated' => 'refresh', 'MenuItemUpdated' => 'refresh', 'MenuItemDeleted' => 'refresh'];
+    protected $listeners = ['menuItemCreated' => '$refresh', 'MenuItemUpdated' => '$refresh', 'MenuItemDeleted' => '$refresh'];
 
     public $activeTab = 'Hrana'; // food | drinks
 

@@ -2,6 +2,10 @@
     <h2 class="font-heading text-2xl font-bold mb-4 text-gray-800">Obrisati događaj?</h2>
     <p class="text-gray-600 mb-6">Ova radnja se ne može poništiti.</p>
 
+    @if($blockedReason)
+    <p class="bg-red-100 text-red-700 p-3 rounded mb-6">{{ $blockedReason }}</p>
+    @endif
+
     <div class="flex justify-center gap-4">
         <button wire:click="deleteEvent"
             class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">

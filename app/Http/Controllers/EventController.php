@@ -5,90 +5,47 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Reservation;
 use App\Models\Table;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
+        $events = Event::upcoming()->get();
 
-        $events = Event::where('status', 'active')->orderBy('date', 'DESC')->take(4)->get();
         return view('events', compact('events'));
     }
 
     public function detail(Event $event)
     {
+        // Neaktivni događaji su vidljivi samo adminu (pregled prije objave).
+        abort_unless($event->isActive() || auth()->user()?->isAdmin(), 404);
 
-        $eventLink = $event->link;
+        $statusByTable = Reservation::where('event_id', $event->id)
+            ->blocking()
+            ->pluck('status', 'table_id');
 
-        $activeReservation = Reservation::where('event_id', $event->id)
-            ->where('status', 'active')
-            ->count();
+        $reservedTables = $statusByTable->filter(fn ($s) => $s === Reservation::STATUS_ACTIVE)->keys()->all();
+        $pendingTables = $statusByTable->filter(fn ($s) => $s === Reservation::STATUS_PENDING)->keys()->all();
 
-        $pendingReservation = Reservation::where('event_id', $event->id)
-            ->where('status', 'pending')
-            ->count();
+        $tables = Table::orderBy('id')->get(['id', 'name', 'min_capacity', 'max_capacity', 'description']);
+        $freeTables = max(0, $tables->count() - $statusByTable->count());
 
-
-
-
+        $userReservation = auth()->check()
+            ? Reservation::where('event_id', $event->id)->where('user_id', auth()->id())->blocking()->first()
+            : null;
 
         session(['last_event' => $event->id]);
-        $tables = Table::all()->count();
 
-        $freeTables = $tables - $activeReservation - $pendingReservation;
-
-        return view('event-detail', compact('event', 'activeReservation', 'pendingReservation', 'freeTables', 'eventLink'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('event-detail', [
+            'event' => $event,
+            'eventLink' => $event->link,
+            'activeReservation' => count($reservedTables),
+            'pendingReservation' => count($pendingTables),
+            'freeTables' => $freeTables,
+            'tables' => $tables,
+            'reservedTables' => $reservedTables,
+            'pendingTables' => $pendingTables,
+            'userReservation' => $userReservation,
+        ]);
     }
 }

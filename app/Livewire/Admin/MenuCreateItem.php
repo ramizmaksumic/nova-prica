@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class MenuCreateItem extends ModalComponent
 {
+    use RequiresAdmin;
 
     use WithFileUploads;
 

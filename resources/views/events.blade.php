@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'Događaji i rezervacija stolova')
+@section('meta_description', 'Nadolazeći vikend događaji u Novoj Priči, Mostar. Pogledajte program, live nastupe i rezervišite stol online.')
+
 @section('content')
 
 <!-- TITLE -->
@@ -28,14 +31,14 @@
 
     <!-- Event kartice -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-10">
-        @foreach ($events as $event)
+        @forelse ($events as $event)
         <div class="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
             <!-- Slika -->
-            <img src="{{ 'storage/' . $event->image }}" alt="{{ $event->name }}" class="w-full h-64 object-cover">
+            <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->name }}" class="w-full h-64 object-cover" loading="lazy">
 
             <!-- Badge za datum -->
             <div class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">
-                {{ \Carbon\Carbon::parse($event->date)->format('d.m.Y.') }}
+                {{ $event->date->format('d.m.Y.') }}
             </div>
 
             <!-- Badge za naziv -->
@@ -50,7 +53,9 @@
                 </a>
             </div>
         </div>
-        @endforeach
+        @empty
+        <p class="col-span-full text-gray-600">Trenutno nema najavljenih događaja. Pratite nas na društvenim mrežama za najave.</p>
+        @endforelse
     </div>
 </section>
 

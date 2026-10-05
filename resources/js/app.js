@@ -1,7 +1,4 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+// Alpine.js dolazi uz Livewire (@livewireScripts u layoutima).
+// Ne pokretati ga ovdje ponovo — dvije instance Alpine-a dupliraju event handlere.

@@ -19,15 +19,15 @@
             <input type="text" wire:model="description" class="w-full rounded">
         </div>
 
+        @if ($errors->any())
+        <ul class="text-red-600 text-sm">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        @endif
 
-        <div>
-            <label class="block font-heading mb-1">Rezervisan</label>
-            <select wire:model="is_reserved" class="w-full rounded">
-                <option value="" selected>Odaberite opciju</option>
-                <option value="1">Da</option>
-                <option value="0">Ne</option>
-            </select>
-        </div>
+
 
         <div class="flex justify-end">
             <button type="button" wire:click="$dispatch('closeModal')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-2">Otkaži</button>
@@ -35,9 +35,4 @@
         </div>
     </form>
 
-    @if($errors)
-
-    {{ $errors }}
-
-    @endif
 </div>

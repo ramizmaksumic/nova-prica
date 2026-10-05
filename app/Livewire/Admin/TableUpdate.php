@@ -2,19 +2,19 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Table;
-use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class TableUpdate extends ModalComponent
 {
+    use RequiresAdmin;
 
     public $tableId;
     public $name;
     public $min_capacity;
     public $max_capacity;
     public $description;
-    public $is_reserved;
 
     public function mount($tableId)
     {
@@ -25,34 +25,24 @@ class TableUpdate extends ModalComponent
         $this->min_capacity = $table->min_capacity;
         $this->max_capacity = $table->max_capacity;
         $this->description = $table->description;
-        $this->is_reserved = $table->is_reserved;
     }
 
     public function update()
     {
-        $this->validate([
+        $validated = $this->validate([
             'name' => 'required|string|max:255',
-            'min_capacity' => 'required|integer|min:2|',
-            'max_capacity' => 'required|integer|max:8',
+            'min_capacity' => 'required|integer|min:1|max:30',
+            'max_capacity' => 'required|integer|max:30|gte:min_capacity',
             'description' => 'nullable|string|max:255',
-            'is_reserved' => 'required|boolean',
-
         ]);
 
-        $table = Table::findOrFail($this->tableId);
-        $this->is_reserved = (int) $this->is_reserved;
+        $validated['description'] ??= '';
 
-        $table->update([
-            'name' => $this->name,
-            'min_capacity' => $this->min_capacity,
-            'max_capacity' => $this->max_capacity,
-            'description' => $this->description,
-            'is_reserved' => $this->is_reserved,
-        ]);
+        Table::findOrFail($this->tableId)->update($validated);
+
         $this->dispatch('tableUpdated');
         $this->closeModal();
     }
-
 
     public function render()
     {

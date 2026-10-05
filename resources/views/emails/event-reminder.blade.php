@@ -1,16 +1,20 @@
-<h2>Podsjetnik za događaj</h2>
+<x-mail::message>
+# Vidimo se večeras!
 
-<p>
-    Poštovani,<br><br>
-    Podsjećamo Vas da danas imate rezervaciju za događaj:
-</p>
+Poštovani {{ $reservation->guestDisplayName() }},
 
-<p>
-    <strong>{{ $event->title }}</strong><br>
-    Datum: {{ \Carbon\Carbon::parse($event->event_date)->format('d.m.Y') }}
-</p>
+Podsjećamo Vas da imate potvrđenu rezervaciju za događaj:
 
-<p>
-    Radujemo se Vašem dolasku!<br><br>
-    Nova priča
-</p>
+**{{ $reservation->event->name }}**<br>
+{{ $reservation->event->date->format('d.m.Y') }} u {{ $reservation->event->date->format('H:i') }}<br>
+Stol: {{ $reservation->table->name }} · Broj osoba: {{ $reservation->num_people }}
+
+Ako ne možete doći, molimo otkažite rezervaciju na svom profilu kako bi stol mogao dobiti neko drugi.
+
+<x-mail::button :url="route('profile.index')">
+Moje rezervacije
+</x-mail::button>
+
+Radujemo se Vašem dolasku!<br>
+{{ config('app.name') }}
+</x-mail::message>

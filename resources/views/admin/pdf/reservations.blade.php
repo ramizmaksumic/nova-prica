@@ -41,8 +41,7 @@
         <thead>
             <tr>
 
-                <th>Ime</th>
-                <th>Prezime</th>
+                <th>Ime i prezime</th>
                 <th>Email</th>
                 <th>Telefon</th>
                 <th>Datum</th>
@@ -58,16 +57,15 @@
             @foreach ($reservations as $r)
             <tr>
 
-                <td>{{ $r->user->name }}</td>
-                <td>{{ $r->user->surname }}</td>
-                <td>{{ $r->user->email }}</td>
-                <td>{{ $r->user->phone }}</td>
+                <td>{{ $r->guestDisplayName() }}</td>
+                <td>{{ $r->contactEmail() }}</td>
+                <td>{{ $r->contactPhone() }}</td>
                 <td>{{ $r->event->date->format('d.m.Y') }}</td>
                 <td>{{ $r->event->name }}</td>
                 <td>{{ $r->table->name }}</td>
                 <td>{{ $r->notes }}</td>
                 <td>{{ $r->num_people }}</td>
-                <td>{{ $r->status }}</td>
+                <td>{{ $r->statusLabel() }}</td>
                 <td></td>
             </tr>
             @endforeach

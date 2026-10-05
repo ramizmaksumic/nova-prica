@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\RequiresAdmin;
 use App\Models\Post;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -9,6 +10,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class PostCreate extends ModalComponent
 {
+    use RequiresAdmin;
     use WithFileUploads;
 
     public $title;

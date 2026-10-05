@@ -11,7 +11,7 @@
         </div>
         <div>
             <label class="block font-heading mb-1">Opis</label>
-            <input type="text" wire:model="description" class="w-full rounded">
+            <textarea wire:model="description" rows="5" class="w-full rounded"></textarea>
             @error('description')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -55,6 +55,14 @@
                 <option value="inactive">Neaktivan</option>
             </select>
             @error('status')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label class="block font-heading mb-1">Entrio link <span class="text-sm text-gray-500">(ako je unesen, umjesto rezervacije stola prikazuje se kupovina karata)</span></label>
+            <input type="url" wire:model="link" class="w-full rounded" placeholder="https://www.entrio.hr/...">
+            @error('link')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
