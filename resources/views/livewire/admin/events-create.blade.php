@@ -45,7 +45,12 @@
         </div>
         <div>
             <label class="block font-heading mb-1">Slika</label>
-            <input type="file" wire:model="image" class="w-full rounded">
+            {{-- Preview potvrđuje da je upload završen; bez njega bi se događaj tiho spremio bez slike. --}}
+            @if ($image && method_exists($image, 'temporaryUrl'))
+            <img src="{{ $image->temporaryUrl() }}" class="w-32 rounded mb-2">
+            @endif
+            <input type="file" wire:model="image" accept="image/*" class="w-full rounded">
+            <p wire:loading wire:target="image" class="text-sm text-gray-500 mt-1">Slika se učitava...</p>
             @error('image')
             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -58,7 +63,7 @@
 
         <div class="flex justify-end">
             <button type="button" wire:click="$dispatch('closeModal')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-2">Otkaži</button>
-            <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Sačuvaj</button>
+            <button type="submit" wire:loading.attr="disabled" wire:target="image,save" class="bg-primary text-white px-4 py-2 rounded disabled:opacity-50">Sačuvaj</button>
         </div>
     </form>
 </div>
